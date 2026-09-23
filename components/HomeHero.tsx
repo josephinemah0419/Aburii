@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { siteImages } from "@/lib/site-images";
 import { SiteNav, RESERVATION_URL } from "./SiteChrome";
 
 export function HomeHero() {
@@ -43,9 +42,9 @@ export function HomeHero() {
     <section className="home-hero" ref={root} aria-label="ABURII Japanese Yakiniku">
       <SiteNav />
       <div className="hero-sticky">
-        <div className="hero-scene scene-one"><Image src={siteImages.wagyuPlatter} alt="Premium raw Miyazaki A5 Wagyu platter" fill priority sizes="100vw" /></div>
-        <div className="hero-scene scene-two"><Image src={siteImages.wagyuGrill} alt="A5 Wagyu approaching a charcoal grill" fill priority sizes="100vw" /></div>
-        <div className="hero-scene scene-final"><Image src={siteImages.diningRoom} alt="The intimate ABURII yakiniku dining room" fill priority sizes="100vw" /></div>
+        <div className="hero-scene scene-one"><Image src="/images/hero-wagyu.png" alt="Premium raw Miyazaki A5 Wagyu platter" fill priority sizes="100vw" /></div>
+        <div className="hero-scene scene-two"><Image src="/images/hero-grill.png" alt="A5 Wagyu approaching a charcoal grill" fill priority sizes="100vw" /></div>
+        <div className="hero-scene scene-final"><Image src="/images/hero-final.png" alt="ABURII Wagyu platter beside a glowing grill" fill priority sizes="100vw" /></div>
         <div className="hero-vignette" />
         <div className="hero-copy">
           <h1>ABURII</h1><p className="hero-kicker">Japanese Yakiniku</p><p className="hero-sub">Miyazaki A5 Wagyu</p>

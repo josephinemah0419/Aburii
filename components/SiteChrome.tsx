@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { siteImages } from "@/lib/site-images";
 
 export const RESERVATION_URL = "https://reservation.umai.io/en/widget/aburii-ttdi";
 
@@ -47,7 +46,7 @@ export function SiteNav() {
 export function ReserveBand() {
   return (
     <section className="reserve-band">
-      <div className="reserve-band-bg"><Image src={siteImages.binchotanCraft} alt="Glowing binchotan charcoal" fill sizes="100vw" /></div>
+      <div className="reserve-band-bg"><Image src="/images/hero-grill.png" alt="Glowing charcoal grill" fill sizes="100vw" /></div>
       <div className="reserve-band-content"><h2>Reserve your table</h2><a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer">Reserve a table</a></div>
     </section>
   );

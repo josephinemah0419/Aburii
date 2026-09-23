@@ -3,12 +3,11 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { HomeHero } from "@/components/HomeHero";
 import { ReserveBand, SiteFooter } from "@/components/SiteChrome";
-import { siteImages } from "@/lib/site-images";
 
 const cards = [
-  { href: "/about", title: "About", copy: "The story, philosophy and space behind Aburii.", image: siteImages.diningRoom, position: "50% 44%" },
-  { href: "/menu", title: "Menu", copy: "Explore the original ABURII menu as a digital book.", image: siteImages.wagyuPlatter, position: "66% 58%" },
-  { href: "/visit", title: "Visit", copy: "Find us in the heart of TTDI.", image: siteImages.entrance, position: "62% 46%" },
+  { href: "/about", title: "About", copy: "The story, philosophy and space behind Aburii.", image: "/images/about-reference.png", position: "50% 12%" },
+  { href: "/menu", title: "Menu", copy: "Explore the original ABURII menu as a digital book.", image: "/menu/page-03.jpg", position: "50% 42%" },
+  { href: "/visit", title: "Visit", copy: "Find us in the heart of TTDI.", image: "/images/visit-reference.png", position: "50% 10%" },
 ];
 
 export default function Home() {
@@ -17,7 +16,7 @@ export default function Home() {
       <HomeHero />
       <section className="editorial-section intro-grid" aria-labelledby="built-around-fire">
         <div className="intro-image image-frame">
-          <Image src={siteImages.binchotanCraft} alt="Glowing binchotan charcoal prepared for yakiniku" fill sizes="(max-width: 768px) 100vw, 50vw" className="cover image-warm" />
+          <Image src="/images/hero-grill.png" alt="Miyazaki A5 Wagyu over a glowing charcoal grill" fill sizes="(max-width: 768px) 100vw, 50vw" className="cover image-warm" />
         </div>
         <div className="intro-copy">
           <p className="eyebrow">ABURII · TTDI</p>
