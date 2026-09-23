@@ -2,51 +2,149 @@
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-const pages = Array.from({ length: 16 }, (_, i) => `/menu/page-${String(i + 1).padStart(2, "0")}.jpg`);
+const menuPages = Array.from({ length: 16 }, (_, index) => ({
+  image: `/menu/page-${String(index + 1).padStart(2, "0")}.jpg`,
+  pageNumber: index + 1,
+}));
 
 export function MenuBook() {
-  const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [direction, setDirection] = useState<"next" | "prev" | "">("");
-  const [mobile, setMobile] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
+  const [isTurning, setIsTurning] = useState(false);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
+  const bookRef = useRef<HTMLDivElement>(null);
+  const closedBookRef = useRef<HTMLButtonElement>(null);
+  const coverRef = useRef<HTMLDivElement>(null);
+  const openBookRef = useRef<HTMLDivElement>(null);
+  const leftPageRef = useRef<HTMLDivElement>(null);
+  const rightPageRef = useRef<HTMLDivElement>(null);
   const touchStart = useRef(0);
+
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 900px)");
-    const update = () => setMobile(media.matches);
-    update(); media.addEventListener("change", update);
+    const media = window.matchMedia("(max-width: 760px)");
+    const update = () => setIsMobile(media.matches);
+    update();
+    media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
-  const maxIndex = mobile ? 15 : 14;
-  const step = mobile ? 1 : 2;
-  const turn = (dir: "next" | "prev") => {
-    setDirection(dir);
-    window.setTimeout(() => {
-      setPage((current) => Math.max(0, Math.min(maxIndex, current + (dir === "next" ? step : -step))));
-      setDirection("");
-    }, 185);
+
+  const firstPage = isMobile ? 0 : 1;
+  const lastPage = isMobile ? menuPages.length - 1 : menuPages.length - 2;
+  const pageStep = isMobile ? 1 : 2;
+
+  useEffect(() => {
+    setPageIndex((current) => {
+      if (isMobile) return Math.min(menuPages.length - 1, current);
+      if (current === 0) return 1;
+      return current % 2 === 0 ? current - 1 : Math.min(current, lastPage);
+    });
+  }, [isMobile, lastPage]);
+
+  const openBook = async () => {
+    if (isOpen || isOpening) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      setIsOpen(true);
+      return;
+    }
+
+    setIsOpening(true);
+    const { gsap } = await import("gsap");
+    const timeline = gsap.timeline({
+      defaults: { ease: "power3.inOut" },
+      onComplete: () => {
+        setIsOpen(true);
+        setIsOpening(false);
+      },
+    });
+    timeline
+      .to(closedBookRef.current, { scale: 1.025, duration: 0.18 })
+      .to(coverRef.current, { rotateY: -68, y: -8, duration: 0.7, transformOrigin: "left center" })
+      .to(closedBookRef.current, { autoAlpha: 0, duration: 0.22 }, "-=0.25")
+      .fromTo(openBookRef.current, { autoAlpha: 0, scale: 0.91 }, { autoAlpha: 1, scale: 1, duration: 0.58 }, "-=0.24");
   };
-  const onTouchEnd = (event: React.TouchEvent) => {
-    const distance = event.changedTouches[0].clientX - touchStart.current;
-    if (Math.abs(distance) > 45) turn(distance < 0 ? "next" : "prev");
+
+  const turnPage = useCallback(async (direction: "previous" | "next") => {
+    if (!isOpen || isTurning) return;
+    const target = Math.max(firstPage, Math.min(lastPage, pageIndex + (direction === "next" ? pageStep : -pageStep)));
+    if (target === pageIndex) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+      setPageIndex(target);
+      return;
+    }
+
+    setIsTurning(true);
+    const { gsap } = await import("gsap");
+    const page = direction === "next" ? rightPageRef.current : leftPageRef.current;
+    const outgoingAngle = direction === "next" ? -9 : 9;
+    const incomingAngle = -outgoingAngle;
+    const timeline = gsap.timeline({
+      defaults: { ease: "power2.inOut" },
+      onComplete: () => setIsTurning(false),
+    });
+    timeline
+      .to(page, { rotateY: outgoingAngle, filter: "brightness(.62)", opacity: 0.42, duration: 0.36, transformOrigin: direction === "next" ? "left center" : "right center" })
+      .call(() => setPageIndex(target))
+      .set(page, { rotateY: incomingAngle })
+      .to(page, { rotateY: 0, filter: "brightness(1)", opacity: 1, duration: 0.4 });
+  }, [firstPage, isOpen, isTurning, lastPage, pageIndex, pageStep]);
+
+  useEffect(() => {
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") turnPage("previous");
+      if (event.key === "ArrowRight") turnPage("next");
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [turnPage]);
+
+  const rightPageIndex = isMobile ? pageIndex : Math.min(pageIndex + 1, menuPages.length - 1);
+  const handleTouchEnd = (event: React.TouchEvent) => {
+    const movement = event.changedTouches[0].clientX - touchStart.current;
+    if (Math.abs(movement) > 45) turnPage(movement < 0 ? "next" : "previous");
   };
-  const rightPage = mobile ? page : Math.min(page + 1, pages.length - 1);
+
   return (
-    <div className="menu-stage" onTouchStart={(e) => { touchStart.current = e.touches[0].clientX; }} onTouchEnd={onTouchEnd}>
-      <div ref={root} className={`menu-book ${open ? "open" : ""} ${direction ? `page-turning ${direction}` : ""}`}>
-        <button className="book-closed" type="button" onClick={() => setOpen(true)} aria-label="Open ABURII menu book"><Image src="/images/menu-closed.png" alt="ABURII premium black menu book" fill priority sizes="80vw" /></button>
-        <div className="book-open" aria-live="polite">
-          <div className="menu-sheet left"><Image src={pages[page]} alt={`ABURII menu page ${page + 1}`} fill sizes="40vw" priority={page < 4} /></div>
-          <div className="menu-sheet right"><Image src={pages[rightPage]} alt={`ABURII menu page ${rightPage + 1}`} fill sizes="(max-width: 900px) 82vw, 40vw" priority={rightPage < 4} /></div>
-          <div className="book-spine" />
+    <div
+      className="menu-stage"
+      onTouchStart={(event) => { touchStart.current = event.touches[0].clientX; }}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div ref={bookRef} className={`digital-menu-book ${isOpen ? "is-open" : ""} ${isOpening ? "is-opening" : ""}`}>
+        <button ref={closedBookRef} className="closed-book" type="button" onClick={openBook} aria-label="Open ABURII menu book">
+          <span className="closed-book-pages" aria-hidden="true" />
+          <span ref={coverRef} className="closed-book-cover">
+            <span className="book-binding" aria-hidden="true" />
+            <span className="book-cover-texture" aria-hidden="true" />
+            <span className="book-brand">
+              <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M19 45c-4-9 4-14 6-22 5 5 3 10 3 14 5-6 7-12 6-20 10 9 14 19 8 28-5 8-18 9-23 0Z" /><path d="M25 47c-2-5 2-8 5-12 1 4 0 7 2 10 3-3 4-6 4-9 4 5 4 10 0 13-4 4-9 2-11-2Z" /></svg>
+              <span>ABURII</span>
+            </span>
+          </span>
+        </button>
+
+        <div ref={openBookRef} className="open-book-frame" aria-live="polite">
+          <span className="open-book-cover-underlay" aria-hidden="true" />
+          <div ref={leftPageRef} className="book-page book-page-left">
+            <Image src={menuPages[pageIndex].image} alt={`ABURII menu page ${menuPages[pageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={pageIndex < 4} />
+          </div>
+          <div ref={rightPageRef} className="book-page book-page-right">
+            <Image src={menuPages[rightPageIndex].image} alt={`ABURII menu page ${menuPages[rightPageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={rightPageIndex < 4} />
+          </div>
+          <span className="book-gutter" aria-hidden="true" />
         </div>
-        {open && <>
-          <button className="menu-arrow prev" type="button" aria-label="Previous menu pages" disabled={page <= (mobile ? 0 : 1)} onClick={() => turn("prev")}><ChevronLeft /></button>
-          <button className="menu-arrow next" type="button" aria-label="Next menu pages" disabled={page >= maxIndex} onClick={() => turn("next")}><ChevronRight /></button>
-          <span className="menu-counter">{mobile ? `Page ${page + 1} of 16` : `Pages ${page + 1}–${Math.min(page + 2, 16)} of 16`}</span>
-          <button className="fullscreen-button" type="button" onClick={() => root.current?.requestFullscreen?.()} aria-label="View menu fullscreen"><Maximize2 size={16} /><span>Fullscreen</span></button>
+
+        <button className="book-nav-button book-nav-previous" type="button" aria-label="Previous menu page" disabled={!isOpen || pageIndex <= firstPage || isTurning} onClick={() => turnPage("previous")}><ChevronLeft /></button>
+        <button className="book-nav-button book-nav-next" type="button" aria-label="Next menu page" disabled={!isOpen || pageIndex >= lastPage || isTurning} onClick={() => turnPage("next")}><ChevronRight /></button>
+
+        {isOpen && <>
+          <span className="book-page-counter">{isMobile ? `Page ${pageIndex + 1} of ${menuPages.length}` : `Pages ${pageIndex + 1}–${rightPageIndex + 1} of ${menuPages.length}`}</span>
+          <button className="book-fullscreen" type="button" onClick={() => bookRef.current?.requestFullscreen?.()} aria-label="View menu fullscreen"><Maximize2 size={16} /><span>Fullscreen</span></button>
         </>}
       </div>
     </div>
