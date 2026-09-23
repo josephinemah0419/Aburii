@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ReserveBand, SiteFooter, SiteNav } from "@/components/SiteChrome";
+import { siteImages } from "@/lib/site-images";
 
 export const metadata: Metadata = {
   title: "About",
@@ -15,7 +16,7 @@ export default function AboutPage() {
       <section className="about-hero">
         <div className="about-hero-media">
           <Image
-            src="/images/hero-grill.png"
+            src={siteImages.wagyuGrill}
             alt="Miyazaki A5 Wagyu held above the charcoal grill"
             fill
             priority
@@ -38,7 +39,7 @@ export default function AboutPage() {
           <p>We believe great dining is about more than food. It is about the moments shared around the grill, the conversations that flow and the people who make it special.</p>
         </div>
         <div className="about-story-media">
-          <Image src="/images/about-reference.png" alt="Dark, intimate ABURII dining room" fill sizes="(max-width: 900px) 100vw, 54vw" />
+          <Image src={siteImages.diningRoom} alt="Dark, intimate ABURII dining room" fill sizes="(max-width: 900px) 100vw, 54vw" />
         </div>
       </section>
 
@@ -53,15 +54,15 @@ export default function AboutPage() {
 
         <div className="about-values">
           <div className="about-value about-value-quality">
-            <Image src="/images/hero-wagyu.png" alt="Premium A5 Wagyu" fill sizes="(max-width: 680px) 100vw, 33vw" />
+            <Image src={siteImages.wagyuPlatter} alt="Premium A5 Wagyu" fill sizes="(max-width: 680px) 100vw, 33vw" />
             <h3>Quality</h3>
           </div>
           <div className="about-value about-value-craft">
-            <Image src="/images/hero-grill.png" alt="Glowing charcoal and grilling process" fill sizes="(max-width: 680px) 100vw, 33vw" />
+            <Image src={siteImages.binchotanCraft} alt="Glowing charcoal and grilling process" fill sizes="(max-width: 680px) 100vw, 33vw" />
             <h3>Craft</h3>
           </div>
           <div className="about-value about-value-experience">
-            <Image src="/images/about-reference.png" alt="Sake poured at the table" fill sizes="(max-width: 680px) 100vw, 33vw" />
+            <Image src={siteImages.sakeService} alt="Sake poured at the table" fill sizes="(max-width: 680px) 100vw, 33vw" />
             <h3>Experience</h3>
           </div>
         </div>
@@ -69,7 +70,7 @@ export default function AboutPage() {
 
       <section className="about-space">
         <div className="about-space-media">
-          <Image src="/images/about-reference.png" alt="ABURII dining room with charcoal grills" fill sizes="(max-width: 900px) 100vw, 58vw" />
+          <Image src={siteImages.diningRoom} alt="ABURII dining room with charcoal grills" fill sizes="(max-width: 900px) 100vw, 58vw" />
         </div>
         <div className="about-space-copy">
           <p className="eyebrow">The space</p>
