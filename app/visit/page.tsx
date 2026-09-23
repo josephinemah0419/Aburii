@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Mail, Phone } from "lucide-react";
 import { SiteFooter, SiteNav } from "@/components/SiteChrome";
+import { siteImages } from "@/lib/site-images";
 
 export const metadata: Metadata = { title: "Visit", description: "Find ABURII Japanese Yakiniku in TTDI, Kuala Lumpur." };
 const directions = "https://www.google.com/maps/dir/?api=1&destination=Aburii+TTDI%2C+5+Lorong+Datuk+Sulaiman+7%2C+Kuala+Lumpur";
@@ -12,7 +13,7 @@ export default function VisitPage() {
       <SiteNav />
       <section className="page-hero">
         <div className="page-hero-copy"><p className="eyebrow">Visit</p><h1>Find<br />us at<br />TTDI</h1><p className="page-hero-sub">A neighbourhood destination for Japanese yakiniku, good food and great company.</p></div>
-        <div className="page-hero-image"><Image className="cover visit-hero-img image-warm" src="/images/visit-reference.png" alt="ABURII restaurant entrance in TTDI" fill priority sizes="(max-width: 900px) 100vw, 65vw" /></div>
+        <div className="page-hero-image"><Image className="cover visit-hero-img image-warm" src={siteImages.entrance} alt="ABURII restaurant entrance in TTDI" fill priority sizes="(max-width: 900px) 100vw, 65vw" /></div>
       </section>
       <section className="visit-details">
         <div className="visit-info">
@@ -25,9 +26,9 @@ export default function VisitPage() {
         <div className="map-wrap"><iframe title="Map showing ABURII TTDI" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Aburii%20TTDI%2C%205%20Lorong%20Datuk%20Sulaiman%207%2C%20Kuala%20Lumpur&output=embed" /></div>
       </section>
       <section className="visit-gallery" aria-label="ABURII interior gallery">
-        <div className="gallery-image gallery-one"><Image className="cover" src="/images/visit-reference.png" alt="ABURII yakiniku table" fill sizes="(max-width: 640px) 100vw, 33vw" /></div>
-        <div className="gallery-image gallery-two"><Image className="cover" src="/images/visit-reference.png" alt="ABURII entrance curtain" fill sizes="(max-width: 640px) 100vw, 33vw" /></div>
-        <div className="gallery-image gallery-three"><Image className="cover" src="/images/visit-reference.png" alt="ABURII dining room" fill sizes="(max-width: 640px) 100vw, 33vw" /></div>
+        <div className="gallery-image gallery-one"><Image className="cover" src={siteImages.diningRoom} alt="ABURII yakiniku table" fill sizes="(max-width: 640px) 100vw, 33vw" /></div>
+        <div className="gallery-image gallery-two"><Image className="cover" src={siteImages.entrance} alt="ABURII entrance curtain" fill sizes="(max-width: 640px) 100vw, 33vw" /></div>
+        <div className="gallery-image gallery-three"><Image className="cover" src={siteImages.sakeService} alt="Sake service in the ABURII dining room" fill sizes="(max-width: 640px) 100vw, 33vw" /></div>
       </section>
       <SiteFooter />
     </main>
