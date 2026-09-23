@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-:root { --ink:#080808; --surface:#101010; --paper:#f2efe9; --muted:#a39d97; --red:#b51622; --ember:#c86225; --line:rgba(242,239,233,.17); --serif:"Bodoni 72",Didot,"Times New Roman",serif; --sans:Inter,"Helvetica Neue",Arial,sans-serif; }
+:root { --ink:#080808; --surface:#101010; --paper:#f2efe9; --muted:#a39d97; --red:#b51622; --ember:#c86225; --line:rgba(242,239,233,.17); --serif:"Bodoni 72",Didot,"Times New Roman",serif; --sans:Inter,"Helvetica Neue",Arial,sans-serif; --serif-zh:"Noto Serif SC","Source Han Serif SC","Songti SC","STSong",serif; --sans-zh:"Noto Sans SC","Source Han Sans SC","Microsoft YaHei","PingFang SC",sans-serif; }
 *{box-sizing:border-box} html{background:var(--ink);color:var(--paper);scroll-behavior:smooth} body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);font-size:16px;line-height:1.65} a{color:inherit;text-decoration:none} button,a{-webkit-tap-highlight-color:transparent} button{font:inherit} img{display:block}.cover{object-fit:cover}.image-warm{filter:saturate(.9) contrast(1.08) brightness(.82)}
 
 .site-nav{position:fixed;z-index:100;top:0;left:0;width:100%;height:86px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 clamp(24px,5vw,76px);transition:background .45s ease,border-color .45s ease;border-bottom:1px solid transparent}.site-nav.scrolled{background:rgba(8,8,8,.92);border-color:var(--line);backdrop-filter:blur(14px)}.wordmark{display:inline-flex;align-items:center;gap:10px;width:max-content;font-family:var(--serif);font-size:25px;line-height:1;letter-spacing:.32em}.seal{display:inline-grid;place-items:center;width:21px;height:21px;margin-left:-4px;border:1px solid var(--red);color:#df3944;font-family:var(--serif);font-size:9px;letter-spacing:0}.desktop-links{display:flex;align-items:center;gap:clamp(30px,4vw,64px)}.nav-link{position:relative;padding:14px 0;font-size:13px;letter-spacing:.22em;text-transform:uppercase}.nav-link::after{content:"";position:absolute;left:0;bottom:6px;width:100%;height:1px;background:var(--red);transform:scaleX(0);transition:transform .3s ease}.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1)}.nav-actions{display:flex;justify-content:flex-end;align-items:center;gap:28px}.reserve-button,.solid-button{display:inline-flex;min-height:48px;align-items:center;justify-content:center;gap:14px;padding:0 24px;border:1px solid var(--red);background:var(--red);color:white;font-size:12px;letter-spacing:.18em;text-transform:uppercase;transition:background .25s ease,transform .25s ease}.reserve-button:hover,.solid-button:hover{background:#ca1b28;transform:translateY(-1px)}.ghost-button{display:inline-flex;min-height:48px;align-items:center;justify-content:center;gap:14px;padding:0 24px;border:1px solid rgba(255,255,255,.5);background:rgba(0,0,0,.22);font-size:12px;letter-spacing:.18em;text-transform:uppercase}.menu-toggle{display:none;width:46px;height:46px;border:0;background:transparent;color:white}.mobile-panel{display:none}
@@ -122,4 +122,23 @@ html,body{max-width:100%;overflow-x:clip}.site-nav,.editorial-section,.site-foot
 
 @media(prefers-reduced-motion:reduce){
   .home-hero{height:auto;min-height:100svh}.hero-sticky{position:relative;min-height:100svh}.hero-scene:not(.scene-final){display:none}.hero-scene.scene-final{opacity:1!important;transform:none!important}.hero-scene img{transform:none!important}
+}
+
+/* Language navigation and Simplified Chinese typography */
+.language-switcher{display:flex;align-items:center;gap:8px;color:#8f8984;font-size:11px;letter-spacing:.14em}.language-switcher a{position:relative;display:grid;min-width:31px;min-height:38px;place-items:center;transition:color .25s ease}.language-switcher a::after{content:"";position:absolute;left:5px;right:5px;bottom:4px;height:1px;background:var(--red);transform:scaleX(0);transition:transform .25s ease}.language-switcher a:hover,.language-switcher a.active{color:#f2efe9}.language-switcher a.active::after{transform:scaleX(1)}
+.mobile-language-switcher{display:flex;align-items:center;gap:12px;margin:4px 0}.mobile-panel .mobile-language-switcher a{display:grid;min-width:72px;min-height:46px;place-items:center;border:1px solid rgba(242,239,233,.2);font-family:var(--sans);font-size:14px;letter-spacing:.08em;text-transform:none;color:#aaa39d;transition:color .25s ease,border-color .25s ease}.mobile-panel .mobile-language-switcher a.active{color:#fff;border-color:var(--red)}
+.locale-zh{font-family:var(--sans-zh);line-height:1.75}.locale-zh h1,.locale-zh h2,.locale-zh h3{font-family:var(--serif-zh);font-weight:500;letter-spacing:.04em;text-transform:none}.locale-zh .hero-copy h1,.locale-zh .wordmark,.locale-zh .book-brand{font-family:var(--serif)}.locale-zh .hero-kicker,.locale-zh .hero-sub,.locale-zh .eyebrow,.locale-zh .nav-link,.locale-zh .reserve-button,.locale-zh .solid-button,.locale-zh .ghost-button,.locale-zh .text-link{letter-spacing:.08em}.locale-zh .intro-copy p:not(.eyebrow),.locale-zh .about-story-copy p,.locale-zh .about-space-copy p,.locale-zh .about-philosophy-head>p{line-height:1.9}.locale-zh .route-card-title{font-family:var(--serif-zh);letter-spacing:.04em}.locale-zh .about-hero-copy h1,.locale-zh .about-story-copy h2,.locale-zh .about-philosophy h2,.locale-zh .about-space-copy h2{line-height:1.15}
+
+@media(max-width:900px){
+  .nav-actions>.language-switcher{display:none}.mobile-language-switcher{display:flex}.locale-zh .mobile-panel{gap:20px}.locale-zh .mobile-panel>a:not(.reserve-button){font-family:var(--serif-zh);font-size:clamp(28px,7vw,38px);letter-spacing:.04em}
+}
+
+@media(min-width:901px){.mobile-language-switcher{display:none}}
+
+@media(min-width:901px) and (max-width:1120px){
+  .language-switcher{gap:4px}.language-switcher a{min-width:27px}.nav-actions{gap:12px}.locale-zh .nav-link{font-size:11px}
+}
+
+@media(max-width:640px){
+  .mobile-panel .mobile-language-switcher a{min-width:76px;min-height:48px;font-size:15px}.locale-zh .hero-copy h1{letter-spacing:.11em}.locale-zh .about-hero-copy h1,.locale-zh .page-hero h1{font-size:clamp(44px,12vw,60px)}.locale-zh .reserve-band h2{font-size:clamp(32px,9vw,44px)}
 }

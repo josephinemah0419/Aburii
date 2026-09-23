@@ -3,10 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { getTranslations, localizedPath, RESERVATION_URL, type Locale } from "@/lib/i18n";
 import { siteImages } from "@/lib/site-images";
-import { SiteNav, RESERVATION_URL } from "./SiteChrome";
+import { SiteNav } from "./SiteChrome";
 
-export function HomeHero() {
+export function HomeHero({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale);
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -43,18 +45,18 @@ export function HomeHero() {
   }, []);
 
   return (
-    <section className="home-hero" ref={root} aria-label="ABURII Japanese Yakiniku">
-      <SiteNav />
+    <section className="home-hero" ref={root} aria-label={t.home.heroLabel}>
+      <SiteNav locale={locale} />
       <div className="hero-sticky">
-        <div className="hero-scene scene-one"><Image src={siteImages.wagyuPlatter} alt="Premium raw Miyazaki A5 Wagyu platter" fill priority sizes="100vw" /></div>
-        <div className="hero-scene scene-two"><Image src={siteImages.wagyuGrill} alt="A5 Wagyu approaching a charcoal grill" fill priority sizes="100vw" /></div>
-        <div className="hero-scene scene-final"><Image src={siteImages.diningRoom} alt="The intimate ABURII yakiniku dining room" fill priority sizes="100vw" /></div>
+        <div className="hero-scene scene-one"><Image src={siteImages.wagyuPlatter} alt={t.home.imageAlts.wagyuPlatter} fill priority sizes="100vw" /></div>
+        <div className="hero-scene scene-two"><Image src={siteImages.wagyuGrill} alt={t.home.imageAlts.wagyuGrill} fill priority sizes="100vw" /></div>
+        <div className="hero-scene scene-final"><Image src={siteImages.diningRoom} alt={t.home.imageAlts.diningRoom} fill priority sizes="100vw" /></div>
         <div className="hero-vignette" />
         <div className="hero-copy">
-          <h1>ABURII</h1><p className="hero-kicker">Japanese Yakiniku</p><p className="hero-sub">Miyazaki A5 Wagyu</p>
-          <div className="hero-buttons"><Link className="solid-button" href="/menu">View menu</Link><a className="ghost-button" href={RESERVATION_URL} target="_blank" rel="noreferrer">Reserve a table</a></div>
+          <h1>ABURII</h1><p className="hero-kicker">{t.home.heroKicker}</p><p className="hero-sub">{t.home.heroSub}</p>
+          <div className="hero-buttons"><Link className="solid-button" href={localizedPath(locale, "/menu")}>{t.home.viewMenu}</Link><a className="ghost-button" href={RESERVATION_URL} target="_blank" rel="noopener noreferrer">{t.nav.reserve}</a></div>
         </div>
-        <span className="scroll-cue">Scroll to reveal</span>
+        <span className="scroll-cue">{t.home.scroll}</span>
       </div>
     </section>
   );

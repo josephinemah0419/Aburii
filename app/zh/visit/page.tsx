@@ -1,8 +1,8 @@
 import { VisitPage } from "@/components/pages/VisitPage";
 import { createPageMetadata } from "@/lib/i18n";
 
-export const metadata = createPageMetadata("en", "visit", "/visit");
+export const metadata = createPageMetadata("zh", "visit", "/visit");
 
 export default function Page() {
-  return <VisitPage locale="en" />;
+  return <VisitPage locale="zh" />;
 }

@@ -6,16 +6,17 @@ import { Menu, X } from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getTranslations, localizedPath, pathForLocale, RESERVATION_URL, type Locale, type SitePath } from "@/lib/i18n";
 import { siteImages } from "@/lib/site-images";
 
-export const RESERVATION_URL = "https://reservation.umai.io/en/widget/aburii-ttdi";
-
-export function Wordmark() {
-  return <Link href="/" className="wordmark" aria-label="ABURII home">ABURII <span className="seal" aria-hidden="true">焙</span></Link>;
+export function Wordmark({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale);
+  return <Link href={localizedPath(locale, "/")} className="wordmark" aria-label={t.accessibility.home}>ABURII <span className="seal" aria-hidden="true">焙</span></Link>;
 }
 
-export function SiteNav() {
+export function SiteNav({ locale }: { locale: Locale }) {
   const pathname = usePathname();
+  const t = getTranslations(locale);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -41,43 +42,56 @@ export function SiteNav() {
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
-  const links = [["/about", "About"], ["/menu", "Menu"], ["/visit", "Visit"]];
+  const links: Array<[SitePath, string]> = [["/about", t.nav.about], ["/menu", t.nav.menu], ["/visit", t.nav.visit]];
+  const englishPath = pathForLocale(pathname, "en");
+  const chinesePath = pathForLocale(pathname, "zh");
   return (
     <>
-      <nav className={`site-nav ${scrolled || pathname === "/menu" ? "scrolled" : ""}`} aria-label="Primary navigation">
-        <Wordmark />
-        <div className="desktop-links">{links.map(([href, label]) => <Link key={href} href={href} className={`nav-link ${pathname === href ? "active" : ""}`}>{label}</Link>)}</div>
+      <nav className={`site-nav ${scrolled || pathname.endsWith("/menu") ? "scrolled" : ""}`} aria-label={t.accessibility.primaryNavigation}>
+        <Wordmark locale={locale} />
+        <div className="desktop-links">{links.map(([path, label]) => { const href = localizedPath(locale, path); return <Link key={path} href={href} className={`nav-link ${pathname === href ? "active" : ""}`}>{label}</Link>; })}</div>
         <div className="nav-actions">
-          <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer">Reserve a table</a>
-          <button className="menu-toggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-controls="mobile-navigation" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
+          <div className="language-switcher" aria-label={t.accessibility.languageSelector}>
+            <Link href={englishPath} className={locale === "en" ? "active" : ""} aria-current={locale === "en" ? "page" : undefined}>EN</Link>
+            <span aria-hidden="true">/</span>
+            <Link href={chinesePath} className={locale === "zh" ? "active" : ""} aria-current={locale === "zh" ? "page" : undefined}>中文</Link>
+          </div>
+          <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noopener noreferrer">{t.nav.reserve}</a>
+          <button className="menu-toggle" type="button" aria-label={open ? t.accessibility.closeMenu : t.accessibility.openMenu} aria-controls="mobile-navigation" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
         </div>
       </nav>
-      <div id="mobile-navigation" className={`mobile-panel ${open ? "open" : ""}`} role="dialog" aria-label="Navigation menu" aria-modal="true" aria-hidden={!open}>
-        <Link href="/" onClick={() => setOpen(false)}>Home</Link>
-        {links.map(([href, label]) => <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}
-        <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Reserve a table</a>
+      <div id="mobile-navigation" className={`mobile-panel ${open ? "open" : ""}`} role="dialog" aria-label={t.accessibility.navigationMenu} aria-modal="true" aria-hidden={!open}>
+        <Link href={localizedPath(locale, "/")} onClick={() => setOpen(false)}>{t.nav.home}</Link>
+        {links.map(([path, label]) => <Link key={path} href={localizedPath(locale, path)} onClick={() => setOpen(false)}>{label}</Link>)}
+        <div className="mobile-language-switcher" aria-label={t.accessibility.languageSelector}>
+          <Link href={englishPath} className={locale === "en" ? "active" : ""} aria-current={locale === "en" ? "page" : undefined} onClick={() => setOpen(false)}>EN</Link>
+          <Link href={chinesePath} className={locale === "zh" ? "active" : ""} aria-current={locale === "zh" ? "page" : undefined} onClick={() => setOpen(false)}>中文</Link>
+        </div>
+        <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}>{t.nav.reserve}</a>
       </div>
     </>
   );
 }
 
-export function ReserveBand() {
+export function ReserveBand({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale);
   return (
     <section className="reserve-band">
-      <div className="reserve-band-bg"><Image src={siteImages.binchotanCraft} alt="Glowing binchotan charcoal" fill sizes="100vw" /></div>
-      <div className="reserve-band-content"><h2>Reserve your table</h2><a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer">Reserve a table</a></div>
+      <div className="reserve-band-bg"><Image src={siteImages.binchotanCraft} alt={t.reserve.imageAlt} fill sizes="100vw" /></div>
+      <div className="reserve-band-content"><h2>{t.reserve.title}</h2><a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noopener noreferrer">{t.reserve.button}</a></div>
     </section>
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale);
   return (
     <footer className="site-footer">
-      <Wordmark />
-      <div className="footer-links"><Link href="/about">About</Link><Link href="/menu">Menu</Link><Link href="/visit">Visit</Link></div>
+      <Wordmark locale={locale} />
+      <div className="footer-links"><Link href={localizedPath(locale, "/about")}>{t.footer.about}</Link><Link href={localizedPath(locale, "/menu")}>{t.footer.menu}</Link><Link href={localizedPath(locale, "/visit")}>{t.footer.visit}</Link></div>
       <div className="footer-meta">
-        <a className="social-link" href="https://www.instagram.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram aria-hidden="true" /></a>
-        <a className="social-link" href="https://www.facebook.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebookF aria-hidden="true" /></a>
+        <a className="social-link" href="https://www.instagram.com/aburii.kl/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram aria-hidden="true" /></a>
+        <a className="social-link" href="https://www.facebook.com/aburii.kl/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebookF aria-hidden="true" /></a>
         <span>© {new Date().getFullYear()} ABURII</span>
       </div>
     </footer>

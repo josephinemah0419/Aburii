@@ -3,13 +3,15 @@
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { getTranslations, type Locale } from "@/lib/i18n";
 
 const menuPages = Array.from({ length: 16 }, (_, index) => ({
   image: `/menu/page-${String(index + 1).padStart(2, "0")}.webp`,
   pageNumber: index + 1,
 }));
 
-export function MenuBook() {
+export function MenuBook({ locale }: { locale: Locale }) {
+  const t = getTranslations(locale);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
   const [isTurning, setIsTurning] = useState(false);
@@ -109,7 +111,7 @@ export function MenuBook() {
       onTouchEnd={handleTouchEnd}
     >
       <div ref={bookRef} className={`digital-menu-book ${isOpen ? "is-open" : ""} ${isOpening ? "is-opening" : ""}`}>
-        <button ref={closedBookRef} className="closed-book" type="button" onClick={openBook} aria-label="Open ABURII menu book">
+        <button ref={closedBookRef} className="closed-book" type="button" onClick={openBook} aria-label={t.menu.open}>
           <span className="closed-book-pages" aria-hidden="true" />
           <span ref={coverRef} className="closed-book-cover">
             <span className="book-binding" aria-hidden="true" />
@@ -124,20 +126,20 @@ export function MenuBook() {
         <div ref={openBookRef} className="open-book-frame" aria-live="polite">
           <span className="open-book-cover-underlay" aria-hidden="true" />
           <div ref={leftPageRef} className="book-page book-page-left">
-            <Image src={menuPages[visiblePageIndex].image} alt={`ABURII menu page ${menuPages[visiblePageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={visiblePageIndex < 4} />
+            <Image src={menuPages[visiblePageIndex].image} alt={t.menu.imageAlt(menuPages[visiblePageIndex].pageNumber)} fill sizes="(max-width: 760px) 88vw, 42vw" priority={visiblePageIndex < 4} />
           </div>
           <div ref={rightPageRef} className="book-page book-page-right">
-            <Image src={menuPages[rightPageIndex].image} alt={`ABURII menu page ${menuPages[rightPageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={rightPageIndex < 4} />
+            <Image src={menuPages[rightPageIndex].image} alt={t.menu.imageAlt(menuPages[rightPageIndex].pageNumber)} fill sizes="(max-width: 760px) 88vw, 42vw" priority={rightPageIndex < 4} />
           </div>
           <span className="book-gutter" aria-hidden="true" />
         </div>
 
-        <button className="book-nav-button book-nav-previous" type="button" aria-label="Previous menu page" disabled={!isOpen || visiblePageIndex <= firstPage || isTurning} onClick={() => turnPage("previous")}><ChevronLeft /></button>
-        <button className="book-nav-button book-nav-next" type="button" aria-label="Next menu page" disabled={!isOpen || visiblePageIndex >= lastPage || isTurning} onClick={() => turnPage("next")}><ChevronRight /></button>
+        <button className="book-nav-button book-nav-previous" type="button" aria-label={t.menu.previous} disabled={!isOpen || visiblePageIndex <= firstPage || isTurning} onClick={() => turnPage("previous")}><ChevronLeft /></button>
+        <button className="book-nav-button book-nav-next" type="button" aria-label={t.menu.next} disabled={!isOpen || visiblePageIndex >= lastPage || isTurning} onClick={() => turnPage("next")}><ChevronRight /></button>
 
         {isOpen && <>
-          <span className="book-page-counter">{isMobile ? `Page ${visiblePageIndex + 1} of ${menuPages.length}` : `Pages ${visiblePageIndex + 1}–${rightPageIndex + 1} of ${menuPages.length}`}</span>
-          <button className="book-fullscreen" type="button" onClick={() => bookRef.current?.requestFullscreen?.()} aria-label="View menu fullscreen"><Maximize2 size={16} /><span>Fullscreen</span></button>
+          <span className="book-page-counter">{isMobile ? t.menu.page(visiblePageIndex + 1, menuPages.length) : t.menu.pages(visiblePageIndex + 1, rightPageIndex + 1, menuPages.length)}</span>
+          <button className="book-fullscreen" type="button" onClick={() => bookRef.current?.requestFullscreen?.()} aria-label={t.menu.fullscreen}><Maximize2 size={16} /><span>{t.menu.fullscreenText}</span></button>
         </>}
       </div>
     </div>
