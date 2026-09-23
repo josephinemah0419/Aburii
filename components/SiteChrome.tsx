@@ -23,7 +23,23 @@ export function SiteNav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setOpen(false));
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
   const links = [["/about", "About"], ["/menu", "Menu"], ["/visit", "Visit"]];
   return (
     <>
@@ -32,13 +48,13 @@ export function SiteNav() {
         <div className="desktop-links">{links.map(([href, label]) => <Link key={href} href={href} className={`nav-link ${pathname === href ? "active" : ""}`}>{label}</Link>)}</div>
         <div className="nav-actions">
           <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer">Reserve a table</a>
-          <button className="menu-toggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
+          <button className="menu-toggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-controls="mobile-navigation" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
         </div>
       </nav>
-      <div className={`mobile-panel ${open ? "open" : ""}`} aria-hidden={!open}>
-        <Link href="/">Home</Link>
-        {links.map(([href, label]) => <Link key={href} href={href}>{label}</Link>)}
-        <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer">Reserve a table</a>
+      <div id="mobile-navigation" className={`mobile-panel ${open ? "open" : ""}`} role="dialog" aria-label="Navigation menu" aria-modal="true" aria-hidden={!open}>
+        <Link href="/" onClick={() => setOpen(false)}>Home</Link>
+        {links.map(([href, label]) => <Link key={href} href={href} onClick={() => setOpen(false)}>{label}</Link>)}
+        <a className="reserve-button" href={RESERVATION_URL} target="_blank" rel="noreferrer" onClick={() => setOpen(false)}>Reserve a table</a>
       </div>
     </>
   );

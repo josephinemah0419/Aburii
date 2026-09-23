@@ -19,16 +19,19 @@ export function HomeHero() {
       gsap.registerPlugin(ScrollTrigger);
       const ctx = gsap.context(() => {
         const scenes = gsap.utils.toArray<HTMLElement>(".hero-scene");
+        const viewportWidth = window.innerWidth;
+        const sceneScale = viewportWidth < 640 ? 1.045 : viewportWidth < 1024 ? 1.07 : 1.12;
+        const exitScale = viewportWidth < 640 ? 1.035 : viewportWidth < 1024 ? 1.055 : 1.08;
         gsap.set(scenes[1], { opacity: 0, scale: 1.04 });
         gsap.set(scenes[2], { opacity: 0, scale: 1.05 });
         const tl = gsap.timeline({ scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: 1 } });
-        tl.to(scenes[0], { scale: 1.12, opacity: 0, duration: 1.15, ease: "none" }, 0)
+        tl.to(scenes[0], { scale: sceneScale, opacity: 0, duration: 1.15, ease: "none" }, 0)
           .to(scenes[1], { opacity: 1, scale: 1, duration: .85, ease: "none" }, .55)
-          .to(scenes[1], { opacity: 0, scale: 1.08, duration: .9, ease: "none" }, 1.55)
+          .to(scenes[1], { opacity: 0, scale: exitScale, duration: .9, ease: "none" }, 1.55)
           .to(scenes[2], { opacity: 1, scale: 1, duration: 1.05, ease: "none" }, 1.45);
       }, root);
       const onMove = (event: PointerEvent) => {
-        if (window.innerWidth < 900 || !root.current) return;
+        if (window.innerWidth < 1024 || !root.current) return;
         const x = (event.clientX / window.innerWidth - .5) * 10;
         const y = (event.clientY / window.innerHeight - .5) * 7;
         gsap.to(root.current.querySelectorAll(".hero-scene img"), { x, y, duration: 1.4, ease: "power2.out", overwrite: true });

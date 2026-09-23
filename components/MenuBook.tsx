@@ -24,7 +24,7 @@ export function MenuBook() {
   const touchStart = useRef(0);
 
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 760px)");
+    const media = window.matchMedia("(max-width: 820px), (max-width: 1023px) and (orientation: portrait)");
     const update = () => setIsMobile(media.matches);
     update();
     media.addEventListener("change", update);
