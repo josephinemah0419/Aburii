@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const menuPages = Array.from({ length: 16 }, (_, index) => ({
-  image: `/menu/page-${String(index + 1).padStart(2, "0")}.jpg`,
+  image: `/menu/page-${String(index + 1).padStart(2, "0")}.webp`,
   pageNumber: index + 1,
 }));
 
@@ -13,7 +13,7 @@ export function MenuBook() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
   const [isTurning, setIsTurning] = useState(false);
-  const [pageIndex, setPageIndex] = useState(1);
+  const [pageIndex, setPageIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const bookRef = useRef<HTMLDivElement>(null);
   const closedBookRef = useRef<HTMLButtonElement>(null);
@@ -31,17 +31,10 @@ export function MenuBook() {
     return () => media.removeEventListener("change", update);
   }, []);
 
-  const firstPage = isMobile ? 0 : 1;
+  const firstPage = 0;
   const lastPage = isMobile ? menuPages.length - 1 : menuPages.length - 2;
   const pageStep = isMobile ? 1 : 2;
-
-  useEffect(() => {
-    setPageIndex((current) => {
-      if (isMobile) return Math.min(menuPages.length - 1, current);
-      if (current === 0) return 1;
-      return current % 2 === 0 ? current - 1 : Math.min(current, lastPage);
-    });
-  }, [isMobile, lastPage]);
+  const visiblePageIndex = isMobile ? pageIndex : pageIndex - (pageIndex % 2);
 
   const openBook = async () => {
     if (isOpen || isOpening) return;
@@ -69,8 +62,8 @@ export function MenuBook() {
 
   const turnPage = useCallback(async (direction: "previous" | "next") => {
     if (!isOpen || isTurning) return;
-    const target = Math.max(firstPage, Math.min(lastPage, pageIndex + (direction === "next" ? pageStep : -pageStep)));
-    if (target === pageIndex) return;
+    const target = Math.max(firstPage, Math.min(lastPage, visiblePageIndex + (direction === "next" ? pageStep : -pageStep)));
+    if (target === visiblePageIndex) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reducedMotion) {
@@ -92,7 +85,7 @@ export function MenuBook() {
       .call(() => setPageIndex(target))
       .set(page, { rotateY: incomingAngle })
       .to(page, { rotateY: 0, filter: "brightness(1)", opacity: 1, duration: 0.4 });
-  }, [firstPage, isOpen, isTurning, lastPage, pageIndex, pageStep]);
+  }, [firstPage, isOpen, isTurning, lastPage, pageStep, visiblePageIndex]);
 
   useEffect(() => {
     const handleKey = (event: KeyboardEvent) => {
@@ -103,7 +96,7 @@ export function MenuBook() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [turnPage]);
 
-  const rightPageIndex = isMobile ? pageIndex : Math.min(pageIndex + 1, menuPages.length - 1);
+  const rightPageIndex = isMobile ? visiblePageIndex : Math.min(visiblePageIndex + 1, menuPages.length - 1);
   const handleTouchEnd = (event: React.TouchEvent) => {
     const movement = event.changedTouches[0].clientX - touchStart.current;
     if (Math.abs(movement) > 45) turnPage(movement < 0 ? "next" : "previous");
@@ -131,7 +124,7 @@ export function MenuBook() {
         <div ref={openBookRef} className="open-book-frame" aria-live="polite">
           <span className="open-book-cover-underlay" aria-hidden="true" />
           <div ref={leftPageRef} className="book-page book-page-left">
-            <Image src={menuPages[pageIndex].image} alt={`ABURII menu page ${menuPages[pageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={pageIndex < 4} />
+            <Image src={menuPages[visiblePageIndex].image} alt={`ABURII menu page ${menuPages[visiblePageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={visiblePageIndex < 4} />
           </div>
           <div ref={rightPageRef} className="book-page book-page-right">
             <Image src={menuPages[rightPageIndex].image} alt={`ABURII menu page ${menuPages[rightPageIndex].pageNumber}`} fill sizes="(max-width: 760px) 88vw, 42vw" priority={rightPageIndex < 4} />
@@ -139,11 +132,11 @@ export function MenuBook() {
           <span className="book-gutter" aria-hidden="true" />
         </div>
 
-        <button className="book-nav-button book-nav-previous" type="button" aria-label="Previous menu page" disabled={!isOpen || pageIndex <= firstPage || isTurning} onClick={() => turnPage("previous")}><ChevronLeft /></button>
-        <button className="book-nav-button book-nav-next" type="button" aria-label="Next menu page" disabled={!isOpen || pageIndex >= lastPage || isTurning} onClick={() => turnPage("next")}><ChevronRight /></button>
+        <button className="book-nav-button book-nav-previous" type="button" aria-label="Previous menu page" disabled={!isOpen || visiblePageIndex <= firstPage || isTurning} onClick={() => turnPage("previous")}><ChevronLeft /></button>
+        <button className="book-nav-button book-nav-next" type="button" aria-label="Next menu page" disabled={!isOpen || visiblePageIndex >= lastPage || isTurning} onClick={() => turnPage("next")}><ChevronRight /></button>
 
         {isOpen && <>
-          <span className="book-page-counter">{isMobile ? `Page ${pageIndex + 1} of ${menuPages.length}` : `Pages ${pageIndex + 1}–${rightPageIndex + 1} of ${menuPages.length}`}</span>
+          <span className="book-page-counter">{isMobile ? `Page ${visiblePageIndex + 1} of ${menuPages.length}` : `Pages ${visiblePageIndex + 1}–${rightPageIndex + 1} of ${menuPages.length}`}</span>
           <button className="book-fullscreen" type="button" onClick={() => bookRef.current?.requestFullscreen?.()} aria-label="View menu fullscreen"><Maximize2 size={16} /><span>Fullscreen</span></button>
         </>}
       </div>
