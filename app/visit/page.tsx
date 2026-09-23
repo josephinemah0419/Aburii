@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Mail, Phone } from "lucide-react";
+import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { SiteFooter, SiteNav } from "@/components/SiteChrome";
 import { siteImages } from "@/lib/site-images";
 
@@ -20,7 +21,7 @@ export default function VisitPage() {
           <p className="eyebrow">Location</p><h2>ABURII TTDI</h2>
           <address className="address">5, Lorong Datuk Sulaiman 7<br />Taman Tun Dr Ismail<br />60000 Kuala Lumpur</address>
           <div className="contact-list"><a href="tel:+60109100267"><Phone size={18} />+6010 910 0267</a><a href="mailto:aburiittdi@gmail.com"><Mail size={18} />aburiittdi@gmail.com</a></div>
-          <div className="social-row"><a className="social-link" href="https://www.instagram.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="ABURII on Instagram">IG</a><a className="social-link" href="https://www.facebook.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="ABURII on Facebook">FB</a></div>
+          <div className="social-row"><a className="social-link" href="https://www.instagram.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram aria-hidden="true" /></a><a className="social-link" href="https://www.facebook.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebookF aria-hidden="true" /></a></div>
           <div className="hours"><h3>Opening hours</h3><div className="hours-grid"><strong>Monday</strong><span>Closed</span><strong>Tuesday – Friday</strong><span>6:00 PM – 10:30 PM</span><strong>Saturday – Sunday</strong><span>12:00 PM – 2:30 PM<br />6:00 PM – 10:30 PM</span></div><a className="solid-button" href={directions} target="_blank" rel="noreferrer">Get directions</a></div>
         </div>
         <div className="map-wrap"><iframe title="Map showing ABURII TTDI" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Aburii%20TTDI%2C%205%20Lorong%20Datuk%20Sulaiman%207%2C%20Kuala%20Lumpur&output=embed" /></div>

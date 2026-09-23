@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { FaFacebookF, FaInstagram } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { siteImages } from "@/lib/site-images";
@@ -75,8 +76,8 @@ export function SiteFooter() {
       <Wordmark />
       <div className="footer-links"><Link href="/about">About</Link><Link href="/menu">Menu</Link><Link href="/visit">Visit</Link></div>
       <div className="footer-meta">
-        <a className="social-link" href="https://www.instagram.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="ABURII on Instagram">IG</a>
-        <a className="social-link" href="https://www.facebook.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="ABURII on Facebook">FB</a>
+        <a className="social-link" href="https://www.instagram.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram aria-hidden="true" /></a>
+        <a className="social-link" href="https://www.facebook.com/aburii.kl/" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebookF aria-hidden="true" /></a>
         <span>© {new Date().getFullYear()} ABURII</span>
       </div>
     </footer>
