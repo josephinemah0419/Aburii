@@ -30,17 +30,27 @@ type HeroAnimationConfig = {
   smokeWidthVw: number;
   smokeLeftPercent: number;
   reactionInsetPercent: number;
+  grillLanding?: {
+    surfaceYRatio: number;
+    surfaceHalfWidthRatio: number;
+    rowOffsetRatio: number;
+    depthPx: number;
+    tiltX: number;
+    verticalScale: number;
+    edgeScale: number;
+  };
 };
 
 const heroAnimationConfig: Record<string, HeroAnimationConfig> = {
-  largeDesktop: { scrollVh: 470, scrub: 1, stageWidth: "min(68vw,1100px)", stageHeight: "min(40vw,620px)", revealScale: 1.05, sliceSpreadVw: 6.4, sliceVerticalVh: 1.2, sliceRotation: 3.2, grill: { width: "min(62vw,920px)", height: "min(54vw,760px)", bottomVh: -7, startYPercent: 80, surfaceHalfVw: 5.8, surfaceYVh: 4 }, landingYOffsetVh: [0, -.6, 1.2, .6], dropScale: .42, smokeWidthVw: 46, smokeLeftPercent: 27, reactionInsetPercent: 29 },
-  desktop: { scrollVh: 470, scrub: 1, stageWidth: "min(72vw,1100px)", stageHeight: "min(42vw,620px)", revealScale: 1.045, sliceSpreadVw: 6, sliceVerticalVh: 1.1, sliceRotation: 3, grill: { width: "min(66vw,920px)", height: "min(58vw,760px)", bottomVh: -8, startYPercent: 78, surfaceHalfVw: 5.7, surfaceYVh: 4.2 }, landingYOffsetVh: [0, -.6, 1.2, .6], dropScale: .42, smokeWidthVw: 48, smokeLeftPercent: 25, reactionInsetPercent: 28 },
-  laptop: { scrollVh: 440, scrub: .9, stageWidth: "min(78vw,980px)", stageHeight: "min(48vw,580px)", revealScale: 1.04, sliceSpreadVw: 5.4, sliceVerticalVh: 1, sliceRotation: 2.7, grill: { width: "min(74vw,860px)", height: "min(64vw,700px)", bottomVh: -7, startYPercent: 74, surfaceHalfVw: 5.2, surfaceYVh: 5.1 }, landingYOffsetVh: [0, -.5, 1, .5], dropScale: .43, smokeWidthVw: 56, smokeLeftPercent: 22, reactionInsetPercent: 24 },
-  tabletLandscape: { scrollVh: 390, scrub: .78, stageWidth: "min(84vw,820px)", stageHeight: "min(56vw,500px)", revealScale: 1.034, sliceSpreadVw: 4.8, sliceVerticalVh: .8, sliceRotation: 2.2, grill: { width: "min(84vw,760px)", height: "min(70vw,620px)", bottomVh: -5, startYPercent: 68, surfaceHalfVw: 4.8, surfaceYVh: 6.1 }, landingYOffsetVh: [0, -.4, .8, .4], dropScale: .44, smokeWidthVw: 72, smokeLeftPercent: 14, reactionInsetPercent: 18 },
-  tabletPortrait: { scrollVh: 370, scrub: .72, stageWidth: "min(92vw,820px)", stageHeight: "min(64vw,520px)", revealScale: 1.03, sliceSpreadVw: 4.5, sliceVerticalVh: .75, sliceRotation: 2, grill: { width: "94vw", height: "78vw", bottomVh: -4, startYPercent: 66, surfaceHalfVw: 4.5, surfaceYVh: 8 }, landingYOffsetVh: [0, -.5, 1.2, .5], dropScale: .44, smokeWidthVw: 84, smokeLeftPercent: 8, reactionInsetPercent: 14 },
-  mobileLandscape: { scrollVh: 250, scrub: .5, stageWidth: "min(76vw,112vh)", stageHeight: "min(50vw,72vh)", stageYOffsetVh: 5, revealScale: 1.022, sliceSpreadVw: 3.8, sliceVerticalVh: .45, sliceRotation: 1.5, grill: { width: "min(78vw,122vh)", height: "min(66vw,98vh)", bottomVh: -18, startYPercent: 54, surfaceHalfVw: 3.8, surfaceYVh: 1.5 }, landingYOffsetVh: [0, -.25, .55, .25], dropScale: .43, smokeWidthVw: 66, smokeLeftPercent: 18, reactionInsetPercent: 20 },
-  mobilePortrait: { scrollVh: 320, scrub: .58, stageWidth: "96vw", stageHeight: "70vw", revealScale: 1.025, sliceSpreadVw: 4.6, sliceVerticalVh: .65, sliceRotation: 1.8, grill: { width: "100vw", height: "90vw", bottomVh: -4, startYPercent: 62, surfaceHalfVw: 4.6, surfaceYVh: 17.5 }, landingYOffsetVh: [0, -.5, 1.3, .65], dropScale: .44, smokeWidthVw: 88, smokeLeftPercent: 6, reactionInsetPercent: 12 },
-  smallMobile: { scrollVh: 300, scrub: .5, stageWidth: "98vw", stageHeight: "74vw", revealScale: 1.02, sliceSpreadVw: 4.1, sliceVerticalVh: .55, sliceRotation: 1.5, grill: { width: "102vw", height: "92vw", bottomVh: -3, startYPercent: 58, surfaceHalfVw: 4.1, surfaceYVh: 17.5 }, landingYOffsetVh: [0, -.45, 1.15, .55], dropScale: .43, smokeWidthVw: 90, smokeLeftPercent: 5, reactionInsetPercent: 10 },
+  largeDesktop: { scrollVh: 470, scrub: 1, stageWidth: "min(68vw,1100px)", stageHeight: "min(40vw,620px)", revealScale: 1.05, sliceSpreadVw: 6.4, sliceVerticalVh: 1.2, sliceRotation: 3.2, grill: { width: "min(62vw,920px)", height: "min(54vw,760px)", bottomVh: -7, startYPercent: 80, surfaceHalfVw: 5.8, surfaceYVh: 4 }, landingYOffsetVh: [0, -.6, 1.2, .6], dropScale: .56, smokeWidthVw: 46, smokeLeftPercent: 27, reactionInsetPercent: 29, grillLanding: { surfaceYRatio: .34, surfaceHalfWidthRatio: .16, rowOffsetRatio: .05, depthPx: 24, tiltX: 58, verticalScale: .8, edgeScale: .8 } },
+  desktop: { scrollVh: 470, scrub: 1, stageWidth: "min(72vw,1100px)", stageHeight: "min(42vw,620px)", revealScale: 1.045, sliceSpreadVw: 6, sliceVerticalVh: 1.1, sliceRotation: 3, grill: { width: "min(66vw,920px)", height: "min(58vw,760px)", bottomVh: -8, startYPercent: 78, surfaceHalfVw: 5.7, surfaceYVh: 4.2 }, landingYOffsetVh: [0, -.6, 1.2, .6], dropScale: .56, smokeWidthVw: 48, smokeLeftPercent: 25, reactionInsetPercent: 28, grillLanding: { surfaceYRatio: .34, surfaceHalfWidthRatio: .16, rowOffsetRatio: .05, depthPx: 24, tiltX: 58, verticalScale: .8, edgeScale: .8 } },
+  laptop: { scrollVh: 440, scrub: .9, stageWidth: "min(78vw,980px)", stageHeight: "min(48vw,580px)", revealScale: 1.04, sliceSpreadVw: 5.4, sliceVerticalVh: 1, sliceRotation: 2.7, grill: { width: "min(74vw,860px)", height: "min(64vw,700px)", bottomVh: -14, startYPercent: 74, surfaceHalfVw: 5.2, surfaceYVh: 5.1 }, landingYOffsetVh: [0, -.5, 1, .5], dropScale: .54, smokeWidthVw: 56, smokeLeftPercent: 22, reactionInsetPercent: 24, grillLanding: { surfaceYRatio: .33, surfaceHalfWidthRatio: .16, rowOffsetRatio: .048, depthPx: 22, tiltX: 57, verticalScale: .8, edgeScale: .8 } },
+  tabletLandscape: { scrollVh: 390, scrub: .78, stageWidth: "min(84vw,820px)", stageHeight: "min(56vw,500px)", revealScale: 1.034, sliceSpreadVw: 4.8, sliceVerticalVh: .8, sliceRotation: 2.2, grill: { width: "min(84vw,760px)", height: "min(70vw,620px)", bottomVh: -5, startYPercent: 68, surfaceHalfVw: 4.8, surfaceYVh: 6.1 }, landingYOffsetVh: [0, -.4, .8, .4], dropScale: .53, smokeWidthVw: 72, smokeLeftPercent: 14, reactionInsetPercent: 18, grillLanding: { surfaceYRatio: .32, surfaceHalfWidthRatio: .155, rowOffsetRatio: .047, depthPx: 20, tiltX: 56, verticalScale: .82, edgeScale: .81 } },
+  tabletPortrait: { scrollVh: 370, scrub: .72, stageWidth: "min(92vw,820px)", stageHeight: "min(64vw,520px)", revealScale: 1.03, sliceSpreadVw: 4.5, sliceVerticalVh: .75, sliceRotation: 2, grill: { width: "94vw", height: "78vw", bottomVh: -4, startYPercent: 66, surfaceHalfVw: 4.5, surfaceYVh: 8 }, landingYOffsetVh: [0, -.5, 1.2, .5], dropScale: .51, smokeWidthVw: 84, smokeLeftPercent: 8, reactionInsetPercent: 14, grillLanding: { surfaceYRatio: .32, surfaceHalfWidthRatio: .15, rowOffsetRatio: .046, depthPx: 18, tiltX: 55, verticalScale: .82, edgeScale: .82 } },
+  tabletPortraitWide: { scrollVh: 370, scrub: .72, stageWidth: "min(86vw,820px)", stageHeight: "min(56vw,520px)", revealScale: 1.03, sliceSpreadVw: 4.5, sliceVerticalVh: .75, sliceRotation: 2, grill: { width: "94vw", height: "78vw", bottomVh: -4, startYPercent: 66, surfaceHalfVw: 4.5, surfaceYVh: 8 }, landingYOffsetVh: [0, -.5, 1.2, .5], dropScale: .47, smokeWidthVw: 84, smokeLeftPercent: 8, reactionInsetPercent: 14, grillLanding: { surfaceYRatio: .34, surfaceHalfWidthRatio: .15, rowOffsetRatio: .045, depthPx: 18, tiltX: 55, verticalScale: .82, edgeScale: .82 } },
+  mobileLandscape: { scrollVh: 250, scrub: .5, stageWidth: "min(76vw,112vh)", stageHeight: "min(50vw,72vh)", stageYOffsetVh: 5, revealScale: 1.022, sliceSpreadVw: 3.8, sliceVerticalVh: .45, sliceRotation: 1.5, grill: { width: "min(78vw,122vh)", height: "min(66vw,98vh)", bottomVh: -18, startYPercent: 54, surfaceHalfVw: 3.8, surfaceYVh: 1.5 }, landingYOffsetVh: [0, -.25, .55, .25], dropScale: .48, smokeWidthVw: 66, smokeLeftPercent: 18, reactionInsetPercent: 20, grillLanding: { surfaceYRatio: .31, surfaceHalfWidthRatio: .15, rowOffsetRatio: .044, depthPx: 16, tiltX: 54, verticalScale: .84, edgeScale: .83 } },
+  mobilePortrait: { scrollVh: 320, scrub: .58, stageWidth: "96vw", stageHeight: "70vw", revealScale: 1.025, sliceSpreadVw: 4.6, sliceVerticalVh: .65, sliceRotation: 1.8, grill: { width: "136vw", height: "122vw", bottomVh: -4, startYPercent: 62, surfaceHalfVw: 4.6, surfaceYVh: 17.5 }, landingYOffsetVh: [0, -.5, 1.3, .65], dropScale: .58, smokeWidthVw: 88, smokeLeftPercent: 6, reactionInsetPercent: 12, grillLanding: { surfaceYRatio: .28, surfaceHalfWidthRatio: .16, rowOffsetRatio: .045, depthPx: 16, tiltX: 68, verticalScale: .65, edgeScale: .86 } },
+  smallMobile: { scrollVh: 300, scrub: .5, stageWidth: "98vw", stageHeight: "74vw", revealScale: 1.02, sliceSpreadVw: 4.1, sliceVerticalVh: .55, sliceRotation: 1.5, grill: { width: "140vw", height: "126vw", bottomVh: -3, startYPercent: 58, surfaceHalfVw: 4.1, surfaceYVh: 17.5 }, landingYOffsetVh: [0, -.45, 1.15, .55], dropScale: .55, smokeWidthVw: 90, smokeLeftPercent: 5, reactionInsetPercent: 10, grillLanding: { surfaceYRatio: .28, surfaceHalfWidthRatio: .155, rowOffsetRatio: .044, depthPx: 14, tiltX: 67, verticalScale: .67, edgeScale: .87 } },
 };
 
 export function HomeHero({ locale }: { locale: Locale }) {
@@ -68,9 +78,10 @@ export function HomeHero({ locale }: { locale: Locale }) {
         mm.add({
           largeDesktop: "(min-width: 1600px)",
           desktop: "(min-width: 1280px) and (max-width: 1599px)",
-          laptop: "(min-width: 1024px) and (max-width: 1279px)",
+          laptop: "(min-width: 1024px) and (max-width: 1279px) and (orientation: landscape)",
           tabletLandscape: "(min-width: 641px) and (max-width: 1023px) and (orientation: landscape)",
-          tabletPortrait: "(min-width: 641px) and (max-width: 1023px) and (orientation: portrait)",
+          tabletPortrait: "(min-width: 641px) and (max-width: 900px) and (orientation: portrait)",
+          tabletPortraitWide: "(min-width: 901px) and (max-width: 1024px) and (orientation: portrait)",
           mobileLandscape: "(max-width: 900px) and (max-height: 520px) and (orientation: landscape)",
           mobilePortrait: "(min-width: 375px) and (max-width: 640px) and (orientation: portrait)",
           smallMobile: "(max-width: 374px) and (orientation: portrait)",
@@ -82,8 +93,6 @@ export function HomeHero({ locale }: { locale: Locale }) {
           const config = heroAnimationConfig[preset];
           const separatedX = [-1, -.33, .33, 1].map((position) => `${position * config.sliceSpreadVw}vw`);
           const separatedY = [0, -1, .7, -.45].map((position) => `${position * config.sliceVerticalVh}vh`);
-          const landedX = [-.7, -.24, .24, .7].map((position) => `${position * config.grill.surfaceHalfVw}vw`);
-          const landedY = config.landingYOffsetVh.map((offset) => `${config.grill.surfaceYVh + offset}vh`);
           const separateRotations = [-1, -.33, .33, 1].map((position) => position * config.sliceRotation);
           const cutNudge = Math.max(1, config.sliceSpreadVw * .42);
 
@@ -93,6 +102,40 @@ export function HomeHero({ locale }: { locale: Locale }) {
           gsap.set(smoke, { width: `${config.smokeWidthVw}vw`, left: `${config.smokeLeftPercent}%` });
           gsap.set(q(".lux-reaction"), { left: `${config.reactionInsetPercent}%`, right: `${config.reactionInsetPercent}%` });
           gsap.set(q(".lux-embers"), { left: `${config.reactionInsetPercent + 4}%`, right: `${config.reactionInsetPercent + 4}%` });
+
+          const stageElement = stage[0];
+          const grillElement = grill[0];
+          const sliceSourceX = [.175, .42, .565, .82];
+          const landingColumns = [-.58, .48, -.48, .58];
+          const landingRows = [-.78, -.66, .72, .84];
+          const edgeScale = config.grillLanding?.edgeScale ?? 1;
+          const landingScaleX = [edgeScale, 1, 1, edgeScale].map((factor) => config.dropScale * factor);
+          const landingScaleY = landingScaleX.map((scale) => scale * (config.grillLanding?.verticalScale ?? 1));
+          const landedX = config.grillLanding && stageElement && grillElement
+            ? sliceSourceX.map((sourcePosition, index) => {
+                const sourceX = stageElement.offsetLeft + stageElement.offsetWidth * sourcePosition;
+                const stageCenterX = stageElement.offsetLeft + stageElement.offsetWidth * .5;
+                const scaledSourceX = stageCenterX + (sourceX - stageCenterX) * landingScaleX[index];
+                const targetX = grillElement.offsetLeft + grillElement.offsetWidth * config.grillLanding!.surfaceHalfWidthRatio * landingColumns[index];
+                return targetX - scaledSourceX;
+              })
+            : [-.7, -.24, .24, .7].map((position) => position * config.grill.surfaceHalfVw * window.innerWidth / 100);
+          const landedY = config.grillLanding && stageElement && grillElement
+            ? landingRows.map((row) => {
+                const sourceY = stageElement.offsetTop + stageElement.offsetHeight * .5;
+                const targetY = grillElement.offsetTop + grillElement.offsetHeight * (config.grillLanding!.surfaceYRatio + row * config.grillLanding!.rowOffsetRatio);
+                return targetY - sourceY;
+              })
+            : config.landingYOffsetVh.map((offset) => (config.grill.surfaceYVh + offset) * window.innerHeight / 100);
+          const landedZ = config.grillLanding
+            ? [-1, -.35, -.7, -.2].map((depth) => depth * config.grillLanding!.depthPx)
+            : [0, 0, 0, 0];
+          const landingTiltX = config.grillLanding
+            ? [-3, 2, 0, -2].map((offset) => config.grillLanding!.tiltX + offset)
+            : [0, 0, 0, 0];
+          const landingRotations = [-11, 6, -5, 10];
+          const approachY = landedY.map((target) => typeof target === "number" && grillElement ? target - grillElement.offsetHeight * .07 : target);
+          const approachX = landedX.map((target) => typeof target === "number" ? target * .92 : target);
 
           const timeline = gsap.timeline({
             defaults: { ease: "power2.inOut" },
@@ -122,15 +165,16 @@ export function HomeHero({ locale }: { locale: Locale }) {
             .to(q(".lux-warmth"), { opacity: 1, duration: .68 }, 2.22)
             .to(q(".lux-smoke-warm"), { opacity: .72, duration: .72 }, 2.27)
             .to(q(".lux-cut-line"), { autoAlpha: 0, duration: .36, stagger: .04 }, 2.25)
-            .addLabel("drop", 2.95)
-            .to(slices, { y: (index: number) => landedY[index], x: (index: number) => landedX[index], rotateZ: (index: number) => [2, -1, 1, -2][index] * (config.sliceRotation / 3), scale: config.dropScale, duration: 1.05, stagger: .12, ease: "power2.in" }, 2.95)
-            .addLabel("ignite", 3.62)
-            .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.68)
-            .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.72)
-            .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 3.94)
-            .addLabel("final", 4.12)
-            .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 4.14)
-            .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.94);
+            .addLabel("drop", 2.86)
+            .to(slices, { y: (index: number) => approachY[index], x: (index: number) => approachX[index], z: (index: number) => landedZ[index] * .4, transformPerspective: 1200, rotateX: (index: number) => landingTiltX[index] * .55, rotateZ: (index: number) => landingRotations[index] * .65, scaleX: (index: number) => landingScaleX[index] * 1.06, scaleY: (index: number) => landingScaleY[index] * 1.06, duration: .64, stagger: .08, ease: "power2.in" }, 2.86)
+            .to(slices, { y: (index: number) => landedY[index], x: (index: number) => landedX[index], z: (index: number) => landedZ[index], rotateX: (index: number) => landingTiltX[index], rotateZ: (index: number) => landingRotations[index], scaleX: (index: number) => landingScaleX[index], scaleY: (index: number) => landingScaleY[index], duration: .42, stagger: .055, ease: "power3.out" }, 3.38)
+            .addLabel("ignite", 3.72)
+            .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.78)
+            .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.82)
+            .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 4.05)
+            .addLabel("final", 4.18)
+            .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 4.2)
+            .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 4.05);
 
           ScrollTrigger.refresh();
           return () => { activeTimeline = null; };
