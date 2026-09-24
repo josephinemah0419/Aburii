@@ -79,7 +79,7 @@ export function MenuBook({ locale }: { locale: Locale }) {
 
     updateLayout();
     query.addEventListener("change", updateLayout);
-    setSimpleMotion(/iPad|iPhone|iPod/.test(window.navigator.userAgent));
+    setSimpleMotion(!window.CSS.supports("transform-style", "preserve-3d"));
     setCanFullscreen(Boolean(document.fullscreenEnabled && bookRef.current?.requestFullscreen));
     return () => {
       query.removeEventListener("change", updateLayout);
@@ -102,6 +102,13 @@ export function MenuBook({ locale }: { locale: Locale }) {
   const releaseTurnLock = useCallback(() => {
     activeTimeline.current = null;
     turningLock.current = false;
+    for (const element of [leftPageRef.current, rightPageRef.current]) {
+      if (!element) continue;
+      element.style.removeProperty("transform");
+      element.style.removeProperty("opacity");
+      element.style.removeProperty("filter");
+      element.style.removeProperty("will-change");
+    }
     setIsTurning(false);
     setTurnDirection(null);
   }, []);
@@ -120,7 +127,7 @@ export function MenuBook({ locale }: { locale: Locale }) {
     }
 
     const { gsap } = await import("gsap");
-    const simplified = simpleMotion || isSinglePage;
+    const simplified = simpleMotion;
     const timeline = gsap.timeline({
       defaults: { ease: "power3.inOut" },
       onComplete: () => {
@@ -137,6 +144,14 @@ export function MenuBook({ locale }: { locale: Locale }) {
       timeline
         .to(closedBookRef.current, { scale: 0.985, opacity: 0, duration: 0.28 })
         .fromTo(openBookRef.current, { autoAlpha: 0, scale: 0.97 }, { autoAlpha: 1, scale: 1, duration: 0.42 }, "-=0.12");
+      return;
+    }
+
+    if (isSinglePage) {
+      timeline
+        .to(closedBookRef.current, { scale: 1.018, duration: 0.14 })
+        .to(closedBookRef.current, { autoAlpha: 0, duration: 0.22 })
+        .fromTo(openBookRef.current, { autoAlpha: 0, scale: 0.975 }, { autoAlpha: 1, scale: 1, duration: 0.46 }, "-=0.2");
       return;
     }
 
@@ -158,12 +173,6 @@ export function MenuBook({ locale }: { locale: Locale }) {
     setTurnDirection(direction);
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reducedMotion) {
-      setPageIndex(target);
-      releaseTurnLock();
-      return;
-    }
-
     const { gsap } = await import("gsap");
     const page = isSinglePage ? rightPageRef.current : direction === "next" ? rightPageRef.current : leftPageRef.current;
     if (!page) {
@@ -172,20 +181,33 @@ export function MenuBook({ locale }: { locale: Locale }) {
       return;
     }
 
-    const simplified = simpleMotion || isSinglePage;
-    const outgoingX = direction === "next" ? -18 : 18;
-    const incomingX = -outgoingX;
+    const simplified = simpleMotion;
     const outgoingAngle = direction === "next" ? -11 : 11;
     const incomingAngle = -outgoingAngle;
     const timeline = gsap.timeline({ defaults: { ease: "power2.inOut" }, onComplete: releaseTurnLock });
     activeTimeline.current = timeline;
 
-    if (simplified) {
+    if (reducedMotion || simplified) {
       timeline
-        .to(page, { x: outgoingX, opacity: 0, duration: 0.2 })
+        .to(page, { opacity: 0.45, duration: 0.16 })
         .call(() => flushSync(() => setPageIndex(target)))
-        .set(page, { x: incomingX, opacity: 0 })
-        .to(page, { x: 0, opacity: 1, duration: 0.24 });
+        .set(page, { opacity: 0.45 })
+        .to(page, { opacity: 1, duration: 0.18 });
+      return;
+    }
+
+    if (isSinglePage) {
+      const mobileOutgoingX = direction === "next" ? -32 : 32;
+      const mobileIncomingX = -mobileOutgoingX;
+      const mobileOutgoingAngle = direction === "next" ? -6 : 6;
+      const mobileIncomingAngle = -mobileOutgoingAngle;
+      page.style.willChange = "transform, opacity";
+      gsap.set(page, { x: 0, rotateY: 0, opacity: 1 });
+      timeline
+        .to(page, { x: mobileOutgoingX, rotateY: mobileOutgoingAngle, opacity: 0.58, duration: 0.22, transformOrigin: direction === "next" ? "left center" : "right center" })
+        .call(() => flushSync(() => setPageIndex(target)))
+        .set(page, { x: mobileIncomingX, rotateY: mobileIncomingAngle, opacity: 0.64 })
+        .to(page, { x: 0, rotateY: 0, opacity: 1, duration: 0.32, ease: "power3.out" });
       return;
     }
 
@@ -213,9 +235,34 @@ export function MenuBook({ locale }: { locale: Locale }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [turnPage]);
 
+  const snapMobilePageBack = useCallback(async () => {
+    if (!isSinglePage || isTurning || !rightPageRef.current) return;
+    const { gsap } = await import("gsap");
+    rightPageRef.current.style.willChange = "transform, opacity";
+    gsap.to(rightPageRef.current, {
+      x: 0,
+      rotateY: 0,
+      opacity: 1,
+      duration: 0.22,
+      ease: "power2.out",
+      onComplete: () => { rightPageRef.current?.style.removeProperty("will-change"); },
+    });
+  }, [isSinglePage, isTurning]);
+
   const handlePointerDown = (event: React.PointerEvent) => {
-    if (!isOpen || !event.isPrimary) return;
+    if (!isOpen || !event.isPrimary || (event.target as HTMLElement).closest("button")) return;
     pointerStart.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: React.PointerEvent) => {
+    const start = pointerStart.current;
+    if (!start || start.id !== event.pointerId || !isSinglePage || isTurning || !rightPageRef.current) return;
+    const distance = event.clientX - start.x;
+    const visualDistance = Math.max(-44, Math.min(44, distance * 0.24));
+    rightPageRef.current.style.willChange = "transform, opacity";
+    rightPageRef.current.style.transform = `translate3d(${visualDistance}px, 0, 0) rotateY(${visualDistance / 7}deg)`;
+    rightPageRef.current.style.opacity = String(1 - Math.abs(visualDistance) / 230);
   };
 
   const handlePointerUp = (event: React.PointerEvent) => {
@@ -224,7 +271,10 @@ export function MenuBook({ locale }: { locale: Locale }) {
     if (!start || start.id !== event.pointerId) return;
     const movementX = event.clientX - start.x;
     const movementY = event.clientY - start.y;
-    if (Math.abs(movementX) < 52 || Math.abs(movementX) < Math.abs(movementY) * 1.25) return;
+    if (Math.abs(movementX) < 60 || Math.abs(movementX) < Math.abs(movementY) * 1.25) {
+      void snapMobilePageBack();
+      return;
+    }
     turnPage(movementX < 0 ? "next" : "previous");
   };
 
@@ -235,8 +285,9 @@ export function MenuBook({ locale }: { locale: Locale }) {
     <div
       className="menu-stage"
       onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-      onPointerCancel={() => { pointerStart.current = null; }}
+      onPointerCancel={() => { pointerStart.current = null; void snapMobilePageBack(); }}
     >
       <div
         ref={bookRef}
