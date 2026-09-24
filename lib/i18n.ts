@@ -63,6 +63,7 @@ export const translations = {
     reserve: { title: "Reserve your table", button: "Reserve a table", imageAlt: "Glowing binchotan charcoal" },
     menu: {
       open: "Open ABURII menu book",
+      viewHint: "Click to view",
       previous: "Previous menu page",
       next: "Next menu page",
       fullscreen: "View menu fullscreen",
@@ -144,6 +145,7 @@ export const translations = {
     reserve: { title: "预订您的座位", button: "立即订位", imageAlt: "炽热的备长炭" },
     menu: {
       open: "打开 ABURII 菜单",
+      viewHint: "点击查看",
       previous: "上一页",
       next: "下一页",
       fullscreen: "全屏查看菜单",

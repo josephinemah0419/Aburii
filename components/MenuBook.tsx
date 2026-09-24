@@ -305,6 +305,7 @@ export function MenuBook({ locale }: { locale: Locale }) {
               <span>ABURII</span>
             </span>
           </span>
+          <span className="menu-view-hint">{t.menu.viewHint}</span>
         </button>
 
         <div ref={openBookRef} className="open-book-frame" aria-live="polite" aria-busy={isTurning}>
