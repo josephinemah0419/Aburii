@@ -23,6 +23,11 @@ export function HomeHero({ locale }: { locale: Locale }) {
       const ctx = gsap.context(() => {
         const q = gsap.utils.selector(root);
         const slices = q<HTMLElement>(".lux-wagyu-slice");
+        const separatedX = mobile ? ["-5vw", "-1.7vw", "1.7vw", "5vw"] : ["-6vw", "-2vw", "2vw", "6vw"];
+        const separatedY = mobile ? ["0vh", "-1vh", ".7vh", "-.45vh"] : ["0vh", "-1.2vh", ".8vh", "-.55vh"];
+        const separatedScale = [.97, 1, 1.03, 1];
+        const landedX = mobile ? ["-6vw", "-2vw", "2vw", "6vw"] : ["-5vw", "-1.7vw", "1.7vw", "5vw"];
+        const landedY = mobile ? ["16.4vh", "17.2vh", "16.7vh", "17.35vh"] : ["7.2vh", "8vh", "7.45vh", "8.15vh"];
         const timeline = gsap.timeline({
           defaults: { ease: "power2.inOut" },
           scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: mobile ? .6 : 1 },
@@ -44,25 +49,25 @@ export function HomeHero({ locale }: { locale: Locale }) {
           .to([slices[2], slices[3]], { x: (index: number) => index === 0 ? (mobile ? 1 : 2) : (mobile ? 2 : 3), duration: .42, ease: "power2.inOut" }, 1.52)
           .to(q(".lux-cut-line"), { autoAlpha: .18, duration: .35, stagger: .06, ease: "power2.inOut" }, 1.58)
           .addLabel("separate", 1.58)
-          .to(slices, { x: (index: number) => (index - 1.5) * (mobile ? 6 : 10), y: (index: number) => Math.abs(index - 1.5) * 3, rotateZ: (index: number) => (index - 1.5) * .55, duration: .7, stagger: .035, ease: "power3.inOut" }, 1.58)
-          .addLabel("grill", 1.88)
-          .to(q(".lux-grill"), { autoAlpha: 1, y: 0, yPercent: 0, duration: 1.02, ease: "power3.inOut" }, 1.88)
-          .to(q(".lux-warmth"), { opacity: 1, duration: .68 }, 2.05)
-          .to(q(".lux-smoke-warm"), { opacity: .72, duration: .72 }, 2.1)
-          .to(q(".lux-cut-line"), { autoAlpha: 0, duration: .36, stagger: .04 }, 2.12)
-          .addLabel("drop", 2.42)
-          .to(slices, { y: mobile ? "16vh" : "7vh", x: (index: number) => (mobile ? ["7vw", "2vw", "-2vw", "-7vw"] : ["9vw", "3vw", "-3vw", "-9vw"])[index], rotateZ: (index: number) => [2, -1, 1, -2][index], scale: mobile ? .56 : .52, duration: 1.02, stagger: .075, ease: "power2.in" }, 2.42)
-          .addLabel("ignite", 3.02)
-          .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.08)
-          .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.12)
-          .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 3.34)
-          .addLabel("final", 3.46)
-          .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 3.48)
-          .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.34);
+          .to(slices, { x: (index: number) => separatedX[index], y: (index: number) => separatedY[index], rotateZ: (index: number) => [-3, -1, 1, 3][index], scale: (index: number) => separatedScale[index], duration: .9, stagger: .045, ease: "power3.inOut" }, 1.58)
+          .addLabel("grill", 2.05)
+          .to(q(".lux-grill"), { autoAlpha: 1, y: 0, yPercent: 0, duration: 1.02, ease: "power3.inOut" }, 2.05)
+          .to(q(".lux-warmth"), { opacity: 1, duration: .68 }, 2.22)
+          .to(q(".lux-smoke-warm"), { opacity: .72, duration: .72 }, 2.27)
+          .to(q(".lux-cut-line"), { autoAlpha: 0, duration: .36, stagger: .04 }, 2.25)
+          .addLabel("drop", 2.95)
+          .to(slices, { y: (index: number) => landedY[index], x: (index: number) => landedX[index], rotateZ: (index: number) => [2, -1, 1, -2][index], scale: mobile ? .44 : .42, duration: 1.05, stagger: .12, ease: "power2.in" }, 2.95)
+          .addLabel("ignite", 3.62)
+          .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.68)
+          .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.72)
+          .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 3.94)
+          .addLabel("final", 4.12)
+          .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 4.14)
+          .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.94);
 
         const onControl = (event: Event) => {
           const action = (event as CustomEvent<{ action: string }>).detail.action;
-          const controlTargets: Record<string, number> = { reveal: .78, cut: 1.72, grill: 2.62, drop: 3.2, ignite: 3.48, final: 4.18 };
+          const controlTargets: Record<string, number> = { reveal: .78, cut: 2.48, grill: 3.02, drop: 3.82, ignite: 4.14, final: 4.82 };
           if (action === "play") timeline.play();
           else if (action === "pause") timeline.pause();
           else if (action === "restart") timeline.restart();
