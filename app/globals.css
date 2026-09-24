@@ -117,12 +117,12 @@ html,body{max-width:100%;overflow-x:clip}.site-nav,.editorial-section,.site-foot
 .lux-hero-pin{background:radial-gradient(ellipse at 50% 48%,#120807 0%,#050303 31%,#000 70%)}
 .lux-wagyu-whole{inset:0;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;transform:none}
 .lux-wagyu-whole img{object-fit:contain;object-position:center;filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.9) brightness(.78)}
-.lux-slices{inset:0;display:block;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;transform:none}
-.lux-wagyu-slice,.lux-wagyu-slice.slice-1,.lux-wagyu-slice.slice-2,.lux-wagyu-slice.slice-3,.lux-wagyu-slice.slice-4{position:absolute;inset:0;width:100%;height:100%;background-repeat:no-repeat;background-position:center;background-size:contain;filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.9) brightness(.78)}
-.lux-wagyu-slice.slice-1{clip-path:polygon(0 0,36% 0,33% 100%,0 100%)}
-.lux-wagyu-slice.slice-2{clip-path:polygon(36% 0,51% 0,48% 100%,33% 100%)}
-.lux-wagyu-slice.slice-3{clip-path:polygon(51% 0,66% 0,63% 100%,48% 100%)}
-.lux-wagyu-slice.slice-4{clip-path:polygon(66% 0,100% 0,100% 100%,63% 100%)}
+.lux-slices{inset:0;display:block;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;transform:none;filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.9) brightness(.78)}
+.lux-wagyu-slice,.lux-wagyu-slice.slice-1,.lux-wagyu-slice.slice-2,.lux-wagyu-slice.slice-3,.lux-wagyu-slice.slice-4{position:absolute;inset:0;width:100%;height:100%;background-repeat:no-repeat;background-position:center;background-size:contain;filter:none}
+.lux-wagyu-slice.slice-1{clip-path:polygon(0 0,36.5% 0,33.5% 100%,0 100%)}
+.lux-wagyu-slice.slice-2{clip-path:polygon(35.5% 0,51.5% 0,48.5% 100%,32.5% 100%)}
+.lux-wagyu-slice.slice-3{clip-path:polygon(50.5% 0,66.5% 0,63.5% 100%,47.5% 100%)}
+.lux-wagyu-slice.slice-4{clip-path:polygon(65.5% 0,100% 0,100% 100%,62.5% 100%)}
 .lux-cut-lines{position:absolute;z-index:7;inset:0;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;pointer-events:none}
 .lux-cut-line{position:absolute;top:29%;display:block;width:1px;height:42%;visibility:hidden;opacity:0;transform:rotate(7deg);transform-origin:center;background:linear-gradient(180deg,transparent,rgba(255,242,222,.72) 24%,rgba(152,36,24,.9) 72%,transparent);box-shadow:0 0 8px rgba(255,225,198,.38),0 0 16px rgba(176,34,20,.2)}
 .lux-cut-line::after{content:"";position:absolute;inset:-8px -10px;background:linear-gradient(90deg,transparent,rgba(255,246,229,.14),transparent);filter:blur(4px)}
@@ -130,7 +130,7 @@ html,body{max-width:100%;overflow-x:clip}.site-nav,.editorial-section,.site-foot
 .lux-grill{inset:auto auto -8vh 50%;width:min(66vw,920px);height:min(58vw,760px);transform:translate(-50%,78%);mix-blend-mode:screen}
 .lux-grill img{object-fit:contain;object-position:center;filter:saturate(.86) brightness(.72) contrast(1.08)}
 .lux-bloom{background:radial-gradient(ellipse at 50% 50%,rgba(153,47,22,.28),transparent 40%)}
-@media(max-width:900px){.lux-wagyu-whole,.lux-slices,.lux-cut-lines{width:min(92vw,820px);height:min(64vw,520px)}.lux-grill{bottom:-4vh;width:94vw;height:78vw}.lux-wagyu-whole img,.lux-wagyu-slice{filter:saturate(.88) brightness(.76)}}
+@media(max-width:900px){.lux-wagyu-whole,.lux-slices,.lux-cut-lines{width:min(92vw,820px);height:min(64vw,520px)}.lux-grill{bottom:-4vh;width:94vw;height:78vw}.lux-wagyu-whole img,.lux-slices{filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.88) brightness(.76)}}
 @media(max-width:640px){.lux-wagyu-whole,.lux-slices,.lux-cut-lines{width:96vw;height:70vw}.lux-grill{width:100vw;height:90vw}}
 
 /* New ABURII homepage entrance: a cinematic scroll-led Wagyu, fire and grill sequence. */
@@ -299,13 +299,20 @@ html,body{max-width:100%;overflow-x:clip}.site-nav,.editorial-section,.site-foot
 
 /* Final object-asset layout overrides; kept last so legacy hero rules cannot leak in. */
 .lux-hero-pin{background:radial-gradient(ellipse at 50% 48%,#120807 0%,#050303 31%,#000 70%)}
-.lux-wagyu-whole{inset:50% auto auto 50%;width:min(72vw,1100px);height:min(42vw,620px);transform:translate(-50%,-50%)}
+.lux-wagyu-whole{inset:0;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;transform:none}
 .lux-wagyu-whole img{object-fit:contain;object-position:center;filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.9) brightness(.78)}
-.lux-slices{inset:50% auto auto 50%;display:flex;width:min(72vw,1080px);height:min(20vw,290px);transform:translate(-50%,-50%);gap:0}
-.lux-wagyu-slice,.lux-wagyu-slice.slice-1,.lux-wagyu-slice.slice-2,.lux-wagyu-slice.slice-3,.lux-wagyu-slice.slice-4{position:relative;inset:auto;flex:0 0 25%;height:100%;clip-path:none;background-repeat:no-repeat;background-size:430% 100%;filter:drop-shadow(0 22px 26px rgba(0,0,0,.62)) saturate(.9) brightness(.79)}
-.lux-wagyu-slice.slice-1{background-position:0 50%}.lux-wagyu-slice.slice-2{background-position:33.333% 50%}.lux-wagyu-slice.slice-3{background-position:66.666% 50%}.lux-wagyu-slice.slice-4{background-position:100% 50%}
+.lux-slices{inset:0;display:block;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;transform:none;filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.9) brightness(.78)}
+.lux-wagyu-slice,.lux-wagyu-slice.slice-1,.lux-wagyu-slice.slice-2,.lux-wagyu-slice.slice-3,.lux-wagyu-slice.slice-4{position:absolute;inset:0;width:100%;height:100%;background-repeat:no-repeat;background-position:center;background-size:contain;filter:none}
+.lux-wagyu-slice.slice-1{clip-path:polygon(0 0,36.5% 0,33.5% 100%,0 100%)}
+.lux-wagyu-slice.slice-2{clip-path:polygon(35.5% 0,51.5% 0,48.5% 100%,32.5% 100%)}
+.lux-wagyu-slice.slice-3{clip-path:polygon(50.5% 0,66.5% 0,63.5% 100%,47.5% 100%)}
+.lux-wagyu-slice.slice-4{clip-path:polygon(65.5% 0,100% 0,100% 100%,62.5% 100%)}
+.lux-cut-lines{position:absolute;z-index:7;inset:0;width:min(72vw,1100px);height:min(42vw,620px);margin:auto;pointer-events:none}
+.lux-cut-line{position:absolute;top:29%;display:block;width:1px;height:42%;visibility:hidden;opacity:0;transform:rotate(7deg);transform-origin:center;background:linear-gradient(180deg,transparent,rgba(255,242,222,.72) 24%,rgba(152,36,24,.9) 72%,transparent);box-shadow:0 0 8px rgba(255,225,198,.38),0 0 16px rgba(176,34,20,.2)}
+.lux-cut-line::after{content:"";position:absolute;inset:-8px -10px;background:linear-gradient(90deg,transparent,rgba(255,246,229,.14),transparent);filter:blur(4px)}
+.lux-cut-line.cut-1{left:35%}.lux-cut-line.cut-2{left:50%}.lux-cut-line.cut-3{left:65%}
 .lux-grill{inset:auto auto -8vh 50%;width:min(66vw,920px);height:min(58vw,760px);transform:translate(-50%,78%);mix-blend-mode:screen}
 .lux-grill img{object-fit:contain;object-position:center;filter:saturate(.86) brightness(.72) contrast(1.08)}
 .lux-bloom{background:radial-gradient(ellipse at 50% 50%,rgba(153,47,22,.28),transparent 40%)}
-@media(max-width:900px){.lux-wagyu-whole{width:min(92vw,820px);height:min(64vw,520px)}.lux-slices{width:92vw;height:28vw}.lux-grill{bottom:-4vh;width:94vw;height:78vw}.lux-wagyu-whole img,.lux-wagyu-slice{filter:saturate(.88) brightness(.76)}}
-@media(max-width:640px){.lux-wagyu-whole{width:96vw;height:70vw}.lux-slices{width:94vw;height:31vw}.lux-grill{width:100vw;height:90vw}.lux-wagyu-slice,.lux-wagyu-slice.slice-1,.lux-wagyu-slice.slice-2,.lux-wagyu-slice.slice-3,.lux-wagyu-slice.slice-4{clip-path:none}}
+@media(max-width:900px){.lux-wagyu-whole,.lux-slices,.lux-cut-lines{width:min(92vw,820px);height:min(64vw,520px)}.lux-grill{bottom:-4vh;width:94vw;height:78vw}.lux-wagyu-whole img,.lux-slices{filter:drop-shadow(0 28px 34px rgba(0,0,0,.7)) saturate(.88) brightness(.76)}}
+@media(max-width:640px){.lux-wagyu-whole,.lux-slices,.lux-cut-lines{width:96vw;height:70vw}.lux-grill{width:100vw;height:90vw}}

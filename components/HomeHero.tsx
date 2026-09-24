@@ -30,19 +30,18 @@ export function HomeHero({ locale }: { locale: Locale }) {
 
         timeline
           .addLabel("reveal", 0)
+          .set(slices, { autoAlpha: 1 }, 0)
           .to(q(".lux-blackout"), { autoAlpha: 0, duration: .5 }, 0)
-          .fromTo(q(".lux-wagyu-whole"), { autoAlpha: 0, scale: .94 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: "power3.out" }, .12)
+          .fromTo(q(".lux-slices"), { autoAlpha: 0, scale: .94 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: "power3.out" }, .12)
           .to(q(".lux-bloom"), { opacity: .52, duration: .7 }, .35)
-          .to(q(".lux-wagyu-whole"), { scale: mobile ? 1.025 : 1.045, duration: .9, ease: "power2.inOut" }, .82)
+          .to(q(".lux-slices"), { scale: mobile ? 1.025 : 1.045, duration: .9, ease: "power2.inOut" }, .82)
           .addLabel("cut", .88)
-          .set(slices, { autoAlpha: 1 }, .88)
           .fromTo(q(".cut-1"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, .9)
           .to(slices[0], { x: mobile ? -2 : -3, duration: .42, ease: "power2.inOut" }, 1.16)
           .fromTo(q(".cut-2"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.08)
           .to(slices[1], { x: mobile ? -1 : -2, duration: .42, ease: "power2.inOut" }, 1.34)
           .fromTo(q(".cut-3"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.26)
           .to([slices[2], slices[3]], { x: (index: number) => index === 0 ? (mobile ? 1 : 2) : (mobile ? 2 : 3), duration: .42, ease: "power2.inOut" }, 1.52)
-          .to(q(".lux-wagyu-whole"), { autoAlpha: 0, duration: .46, ease: "power2.inOut" }, 1.28)
           .to(q(".lux-cut-line"), { autoAlpha: .18, duration: .35, stagger: .06, ease: "power2.inOut" }, 1.58)
           .addLabel("separate", 1.58)
           .to(slices, { x: (index: number) => (index - 1.5) * (mobile ? 6 : 10), y: (index: number) => Math.abs(index - 1.5) * 3, rotateZ: (index: number) => (index - 1.5) * .55, duration: .7, stagger: .035, ease: "power3.inOut" }, 1.58)
@@ -88,8 +87,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
     <SiteNav locale={locale} />
     <div className="lux-hero-pin">
       <div className="lux-bloom" aria-hidden="true" />
-      <div className="lux-wagyu-whole lux-depth"><Image src={heroAssets.wagyuWhole} alt={t.home.imageAlts.wagyuPlatter} fill priority sizes="(max-width: 800px) 92vw, 72vw" /></div>
-      <div className="lux-slices lux-depth" aria-hidden="true">
+      <div className="lux-slices lux-depth" role="img" aria-label={t.home.imageAlts.wagyuPlatter}>
         {[0, 1, 2, 3].map((index) => <div className={`lux-wagyu-slice slice-${index + 1}`} style={{ backgroundImage: `url(${heroAssets.wagyuWhole})` }} key={index} />)}
       </div>
       <div className="lux-cut-lines" aria-hidden="true"><i className="lux-cut-line cut-1" /><i className="lux-cut-line cut-2" /><i className="lux-cut-line cut-3" /></div>
