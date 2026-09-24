@@ -203,3 +203,57 @@ html,body{max-width:100%;overflow-x:clip}.site-nav,.editorial-section,.site-foot
   .closed-book,.closed-book-cover,.open-book-frame,.book-page,.book-nav-button{animation:none!important;transition:none!important}
   .digital-menu-book.is-open .open-book-frame{transform:none!important}
 }
+
+/* Mobile typography — compact editorial scale without changing page layout. */
+@media(max-width:640px){
+  body{font-size:clamp(15px,3.9vw,16px);line-height:1.62}
+  .eyebrow{margin-bottom:14px;font-size:clamp(10px,2.8vw,11px);line-height:1.3;letter-spacing:.14em}
+  .wordmark{font-size:20px;letter-spacing:.25em}
+  .mobile-panel{gap:16px}
+  .mobile-panel a,.locale-zh .mobile-panel>a:not(.reserve-button){min-height:44px;font-size:clamp(20px,6vw,24px);line-height:1.15;letter-spacing:.035em}
+  .mobile-panel .reserve-button{min-height:46px;font-size:13px;letter-spacing:.12em}
+  .mobile-panel .mobile-language-switcher a{min-height:44px;font-size:13px;letter-spacing:.04em}
+  .reserve-button,.solid-button,.ghost-button{min-height:44px;font-size:12px;letter-spacing:.12em}
+  .text-link{font-size:11px;line-height:1.3;letter-spacing:.12em}
+
+  .hero-copy h1{font-size:clamp(42px,12vw,52px);line-height:.94;letter-spacing:.09em}
+  .hero-kicker,.hero-sub{font-size:11px;line-height:1.35;letter-spacing:.14em}
+  .hero-kicker{margin-top:13px}.hero-sub{margin:4px 0 19px}
+  .hero-buttons{max-width:270px}.hero-buttons>*{padding-inline:14px}
+
+  .intro-copy h2,.section-title{margin-bottom:18px;font-size:clamp(30px,9.5vw,40px);line-height:1.02;letter-spacing:.015em}
+  .intro-copy p:not(.eyebrow),.route-card-description{font-size:15px;line-height:1.62}
+  .route-card-title{font-size:clamp(27px,8vw,31px);line-height:1.04;letter-spacing:.035em}
+  .reserve-band h2{margin-bottom:20px;font-size:clamp(30px,9vw,38px);line-height:1.04;letter-spacing:.02em}
+  .footer-links{font-size:11px;line-height:1.35;letter-spacing:.1em}.footer-meta{font-size:10px;line-height:1.35}
+
+  .page-hero h1,.about-hero-copy h1{font-size:clamp(40px,11.5vw,50px);line-height:.98;letter-spacing:.015em}
+  .page-hero-sub,.about-hero-sub{margin-top:18px;font-size:16px;line-height:1.48;letter-spacing:.03em}
+  .about-story-copy h2,.about-philosophy h2,.about-space-copy h2{margin-bottom:20px;font-size:clamp(30px,9vw,40px);line-height:1.03;letter-spacing:.01em}
+  .about-story-copy p:not(.eyebrow),.about-philosophy-head>p,.about-space-copy p{font-size:15px;line-height:1.64}
+  .about-value h3{font-size:22px;line-height:1.08;letter-spacing:.05em}
+
+  .visit-info h2{margin-bottom:18px;font-size:clamp(30px,9vw,38px);line-height:1.05}
+  .address,.contact-list a,.hours-grid{font-size:15px;line-height:1.62}
+  .hours h3{font-size:11px;line-height:1.3;letter-spacing:.16em}
+  .book-page-counter{font-size:10px;line-height:1.25;letter-spacing:.1em}
+  .book-fullscreen{font-size:10px;letter-spacing:.1em}
+
+  .locale-zh{line-height:1.7}
+  .locale-zh .eyebrow{letter-spacing:.08em}
+  .locale-zh .hero-kicker,.locale-zh .hero-sub,.locale-zh .reserve-button,.locale-zh .solid-button,.locale-zh .ghost-button,.locale-zh .text-link{letter-spacing:.05em}
+  .locale-zh .intro-copy h2,.locale-zh .section-title{font-size:clamp(31px,9vw,39px);line-height:1.13}
+  .locale-zh .page-hero h1,.locale-zh .about-hero-copy h1{font-size:clamp(39px,10.5vw,47px);line-height:1.08}
+  .locale-zh .about-story-copy h2,.locale-zh .about-philosophy h2,.locale-zh .about-space-copy h2{font-size:clamp(30px,8.8vw,38px);line-height:1.14}
+  .locale-zh .intro-copy p:not(.eyebrow),.locale-zh .about-story-copy p,.locale-zh .about-space-copy p,.locale-zh .about-philosophy-head>p{font-size:15px;line-height:1.78}
+}
+
+@media(max-width:374px){
+  .mobile-panel a,.locale-zh .mobile-panel>a:not(.reserve-button){font-size:20px}
+  .hero-copy h1{font-size:42px}.hero-kicker,.hero-sub{font-size:10px;letter-spacing:.12em}
+  .intro-copy h2,.section-title{font-size:30px}
+  .page-hero h1,.about-hero-copy h1{font-size:39px}
+  .about-story-copy h2,.about-philosophy h2,.about-space-copy h2{font-size:30px}
+  .reserve-band h2{font-size:30px}
+  .locale-zh .page-hero h1,.locale-zh .about-hero-copy h1{font-size:38px}
+}
