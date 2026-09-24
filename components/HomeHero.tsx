@@ -26,8 +26,8 @@ export function HomeHero({ locale }: { locale: Locale }) {
         const separatedX = mobile ? ["-5vw", "-1.7vw", "1.7vw", "5vw"] : ["-6vw", "-2vw", "2vw", "6vw"];
         const separatedY = mobile ? ["0vh", "-1vh", ".7vh", "-.45vh"] : ["0vh", "-1.2vh", ".8vh", "-.55vh"];
         const separatedScale = [.97, 1, 1.03, 1];
-        const landedX = mobile ? ["-6vw", "-2vw", "2vw", "6vw"] : ["-5vw", "-1.7vw", "1.7vw", "5vw"];
-        const landedY = mobile ? ["16.4vh", "17.2vh", "16.7vh", "17.35vh"] : ["7.2vh", "8vh", "7.45vh", "8.15vh"];
+        const landedX = mobile ? ["-5vw", "-1.8vw", "1.8vw", "5vw"] : ["-4vw", "-1.4vw", "1.4vw", "4vw"];
+        const landedY = mobile ? ["8.2vh", "7.6vh", "10vh", "9.2vh"] : ["4.2vh", "3.6vh", "5.4vh", "4.8vh"];
         const timeline = gsap.timeline({
           defaults: { ease: "power2.inOut" },
           scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: mobile ? .6 : 1 },
