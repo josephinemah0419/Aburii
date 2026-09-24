@@ -1,6 +1,5 @@
 export const heroAssets = {
   wagyuWhole: "/hero/v2/wagyu-whole.png",
-  wagyuSlices: "/hero/v2/wagyu-slices.png",
   yakinikuGrill: "/hero/v2/yakiniku-grill.png",
 } as const;
 

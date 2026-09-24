@@ -29,41 +29,48 @@ export function HomeHero({ locale }: { locale: Locale }) {
         });
 
         timeline
-          .addLabel("scene1", 0)
+          .addLabel("reveal", 0)
           .to(q(".lux-blackout"), { autoAlpha: 0, duration: .5 }, 0)
           .fromTo(q(".lux-wagyu-whole"), { autoAlpha: 0, scale: .94 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: "power3.out" }, .12)
           .to(q(".lux-bloom"), { opacity: .52, duration: .7 }, .35)
-          .to(q(".lux-wagyu-whole"), { scale: mobile ? 1.035 : 1.07, duration: .78 }, 1.05)
-          .addLabel("scene2", 1.48)
-          .set(slices, { autoAlpha: 1 }, 1.62)
-          .set(q(".lux-wagyu-whole"), { autoAlpha: 0 }, 1.62)
-          .fromTo(q(".lux-blade-trace"), { autoAlpha: 0, xPercent: -85 }, { autoAlpha: .74, xPercent: 85, duration: .34, ease: "power3.inOut" }, 1.52)
-          .to(q(".lux-blade-trace"), { autoAlpha: 0, duration: .16 }, 1.82)
-          .to(slices, { x: (index: number) => (index - 1.5) * (mobile ? 8 : 15), y: (index: number) => Math.abs(index - 1.5) * 5, rotateZ: (index: number) => (index - 1.5) * 1.2, duration: .72, stagger: .035, ease: "power3.out" }, 1.78)
-          .addLabel("scene3", 2.12)
-          .to(q(".lux-grill"), { autoAlpha: 1, y: 0, yPercent: 0, duration: .92, ease: "power3.out" }, 2.15)
-          .to(q(".lux-warmth"), { opacity: 1, duration: .55 }, 2.32)
-          .to(q(".lux-smoke-warm"), { opacity: .72, duration: .6 }, 2.38)
-          .addLabel("scene4", 2.68)
-          .to(slices, { y: mobile ? "16vh" : "7vh", x: (index: number) => (mobile ? ["18vw", "6vw", "-6vw", "-18vw"] : ["10vw", "3.5vw", "-3.5vw", "-10vw"])[index], rotateZ: (index: number) => [3, -2, 2, -3][index], scale: mobile ? .56 : .52, duration: .92, stagger: .085, ease: "power2.in" }, 2.72)
-          .addLabel("scene5", 3.3)
-          .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .28, ease: "power3.out" }, 3.35)
-          .to(q(".lux-embers"), { autoAlpha: 1, duration: .2 }, 3.38)
-          .to(q(".lux-reaction"), { opacity: .4, duration: .55 }, 3.58)
-          .addLabel("final", 3.68)
-          .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .7, ease: "power3.out" }, 3.7)
-          .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.58);
+          .to(q(".lux-wagyu-whole"), { scale: mobile ? 1.025 : 1.045, duration: .9, ease: "power2.inOut" }, .82)
+          .addLabel("cut", .88)
+          .set(slices, { autoAlpha: 1 }, .88)
+          .fromTo(q(".cut-1"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, .9)
+          .to(slices[0], { x: mobile ? -2 : -3, duration: .42, ease: "power2.inOut" }, 1.16)
+          .fromTo(q(".cut-2"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.08)
+          .to(slices[1], { x: mobile ? -1 : -2, duration: .42, ease: "power2.inOut" }, 1.34)
+          .fromTo(q(".cut-3"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.26)
+          .to([slices[2], slices[3]], { x: (index: number) => index === 0 ? (mobile ? 1 : 2) : (mobile ? 2 : 3), duration: .42, ease: "power2.inOut" }, 1.52)
+          .to(q(".lux-wagyu-whole"), { autoAlpha: 0, duration: .46, ease: "power2.inOut" }, 1.28)
+          .to(q(".lux-cut-line"), { autoAlpha: .18, duration: .35, stagger: .06, ease: "power2.inOut" }, 1.58)
+          .addLabel("separate", 1.58)
+          .to(slices, { x: (index: number) => (index - 1.5) * (mobile ? 6 : 10), y: (index: number) => Math.abs(index - 1.5) * 3, rotateZ: (index: number) => (index - 1.5) * .55, duration: .7, stagger: .035, ease: "power3.inOut" }, 1.58)
+          .addLabel("grill", 1.88)
+          .to(q(".lux-grill"), { autoAlpha: 1, y: 0, yPercent: 0, duration: 1.02, ease: "power3.inOut" }, 1.88)
+          .to(q(".lux-warmth"), { opacity: 1, duration: .68 }, 2.05)
+          .to(q(".lux-smoke-warm"), { opacity: .72, duration: .72 }, 2.1)
+          .to(q(".lux-cut-line"), { autoAlpha: 0, duration: .36, stagger: .04 }, 2.12)
+          .addLabel("drop", 2.42)
+          .to(slices, { y: mobile ? "16vh" : "7vh", x: (index: number) => (mobile ? ["7vw", "2vw", "-2vw", "-7vw"] : ["9vw", "3vw", "-3vw", "-9vw"])[index], rotateZ: (index: number) => [2, -1, 1, -2][index], scale: mobile ? .56 : .52, duration: 1.02, stagger: .075, ease: "power2.in" }, 2.42)
+          .addLabel("ignite", 3.02)
+          .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.08)
+          .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.12)
+          .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 3.34)
+          .addLabel("final", 3.46)
+          .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 3.48)
+          .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.34);
 
         const onControl = (event: Event) => {
           const action = (event as CustomEvent<{ action: string }>).detail.action;
-          const controlTargets: Record<string, number> = { scene1: 1.22, scene2: 2.1, scene3: 3.04, scene4: 3.5, scene5: 3.82, final: 4.38 };
+          const controlTargets: Record<string, number> = { reveal: .78, cut: 1.72, grill: 2.62, drop: 3.2, ignite: 3.48, final: 4.18 };
           if (action === "play") timeline.play();
           else if (action === "pause") timeline.pause();
           else if (action === "restart") timeline.restart();
           else if (controlTargets[action] !== undefined && timeline.scrollTrigger) {
             const progress = controlTargets[action] / timeline.duration();
             const targetScroll = timeline.scrollTrigger.start + (timeline.scrollTrigger.end - timeline.scrollTrigger.start) * progress;
-            window.scrollTo({ top: targetScroll, behavior: "smooth" });
+            window.scrollTo({ top: targetScroll, behavior: "auto" });
           }
         };
         window.addEventListener("aburii:hero-control", onControl);
@@ -83,9 +90,9 @@ export function HomeHero({ locale }: { locale: Locale }) {
       <div className="lux-bloom" aria-hidden="true" />
       <div className="lux-wagyu-whole lux-depth"><Image src={heroAssets.wagyuWhole} alt={t.home.imageAlts.wagyuPlatter} fill priority sizes="(max-width: 800px) 92vw, 72vw" /></div>
       <div className="lux-slices lux-depth" aria-hidden="true">
-        {[0, 1, 2, 3].map((index) => <div className={`lux-wagyu-slice slice-${index + 1}`} style={{ backgroundImage: `url(${heroAssets.wagyuSlices})` }} key={index} />)}
+        {[0, 1, 2, 3].map((index) => <div className={`lux-wagyu-slice slice-${index + 1}`} style={{ backgroundImage: `url(${heroAssets.wagyuWhole})` }} key={index} />)}
       </div>
-      <div className="lux-blade-trace" aria-hidden="true" />
+      <div className="lux-cut-lines" aria-hidden="true"><i className="lux-cut-line cut-1" /><i className="lux-cut-line cut-2" /><i className="lux-cut-line cut-3" /></div>
       <div className="lux-grill"><Image src={heroAssets.yakinikuGrill} alt="" fill sizes="(max-width: 800px) 94vw, 66vw" /></div>
       <div className="lux-warmth" aria-hidden="true" /><div className="lux-reaction" aria-hidden="true" />
       <div className="lux-smoke lux-smoke-cool" aria-hidden="true" /><div className="lux-smoke lux-smoke-warm" aria-hidden="true" />
@@ -95,7 +102,7 @@ export function HomeHero({ locale }: { locale: Locale }) {
       <div className="lux-final-copy"><h1>ABURII</h1><p>{t.home.heroKicker}</p><p>{t.home.heroSub}</p><div className="lux-actions"><Link className="solid-button" href={localizedPath(locale, "/menu")}>{t.home.viewMenu}</Link><a className="ghost-button" href={RESERVATION_URL} target="_blank" rel="noopener noreferrer">{t.nav.reserve}</a></div></div>
       <span className="lux-scroll-cue">{t.home.scroll}</span>
       {process.env.NODE_ENV !== "production" && <div className="lux-dev-controls" aria-label="Hero scene controls">
-        {[['scene1', 'Scene 1'], ['scene2', 'Slice Wagyu'], ['scene3', 'Grill Up'], ['scene4', 'Drop Wagyu'], ['scene5', 'Ignite'], ['final', 'Final']].map(([action, label]) => <button type="button" key={action} onClick={() => controlHero(action)}>{label}</button>)}
+        {[['reveal', 'Reveal'], ['cut', 'Cut Wagyu'], ['grill', 'Grill Up'], ['drop', 'Drop Wagyu'], ['ignite', 'Ignite'], ['final', 'Final']].map(([action, label]) => <button type="button" key={action} onClick={() => controlHero(action)}>{label}</button>)}
         <i aria-hidden="true" />
         {['play', 'pause', 'restart'].map((action) => <button type="button" key={action} onClick={() => controlHero(action)}>{action}</button>)}
       </div>}
