@@ -11,7 +11,11 @@ import { siteImages } from "@/lib/site-images";
 
 export function Wordmark({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
-  return <Link href={localizedPath(locale, "/")} className="wordmark" aria-label={t.accessibility.home}>ABURII <span className="seal" aria-hidden="true">焙</span></Link>;
+  return (
+    <Link href={localizedPath(locale, "/")} className="wordmark" aria-label={t.accessibility.home}>
+      <Image src="/brand/aburii-logo.png" alt="" width={2048} height={853} priority />
+    </Link>
+  );
 }
 
 export function SiteNav({ locale }: { locale: Locale }) {
