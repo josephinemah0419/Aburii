@@ -7,6 +7,42 @@ import { getTranslations, localizedPath, RESERVATION_URL, type Locale } from "@/
 import { heroAssets } from "@/lib/hero-assets";
 import { SiteNav } from "./SiteChrome";
 
+type HeroAnimationConfig = {
+  scrollVh: number;
+  scrub: number;
+  stageWidth: string;
+  stageHeight: string;
+  stageYOffsetVh?: number;
+  revealScale: number;
+  sliceSpreadVw: number;
+  sliceVerticalVh: number;
+  sliceRotation: number;
+  grill: {
+    width: string;
+    height: string;
+    bottomVh: number;
+    startYPercent: number;
+    surfaceHalfVw: number;
+    surfaceYVh: number;
+  };
+  landingYOffsetVh: [number, number, number, number];
+  dropScale: number;
+  smokeWidthVw: number;
+  smokeLeftPercent: number;
+  reactionInsetPercent: number;
+};
+
+const heroAnimationConfig: Record<string, HeroAnimationConfig> = {
+  largeDesktop: { scrollVh: 470, scrub: 1, stageWidth: "min(68vw,1100px)", stageHeight: "min(40vw,620px)", revealScale: 1.05, sliceSpreadVw: 6.4, sliceVerticalVh: 1.2, sliceRotation: 3.2, grill: { width: "min(62vw,920px)", height: "min(54vw,760px)", bottomVh: -7, startYPercent: 80, surfaceHalfVw: 5.8, surfaceYVh: 4 }, landingYOffsetVh: [0, -.6, 1.2, .6], dropScale: .42, smokeWidthVw: 46, smokeLeftPercent: 27, reactionInsetPercent: 29 },
+  desktop: { scrollVh: 470, scrub: 1, stageWidth: "min(72vw,1100px)", stageHeight: "min(42vw,620px)", revealScale: 1.045, sliceSpreadVw: 6, sliceVerticalVh: 1.1, sliceRotation: 3, grill: { width: "min(66vw,920px)", height: "min(58vw,760px)", bottomVh: -8, startYPercent: 78, surfaceHalfVw: 5.7, surfaceYVh: 4.2 }, landingYOffsetVh: [0, -.6, 1.2, .6], dropScale: .42, smokeWidthVw: 48, smokeLeftPercent: 25, reactionInsetPercent: 28 },
+  laptop: { scrollVh: 440, scrub: .9, stageWidth: "min(78vw,980px)", stageHeight: "min(48vw,580px)", revealScale: 1.04, sliceSpreadVw: 5.4, sliceVerticalVh: 1, sliceRotation: 2.7, grill: { width: "min(74vw,860px)", height: "min(64vw,700px)", bottomVh: -7, startYPercent: 74, surfaceHalfVw: 5.2, surfaceYVh: 5.1 }, landingYOffsetVh: [0, -.5, 1, .5], dropScale: .43, smokeWidthVw: 56, smokeLeftPercent: 22, reactionInsetPercent: 24 },
+  tabletLandscape: { scrollVh: 390, scrub: .78, stageWidth: "min(84vw,820px)", stageHeight: "min(56vw,500px)", revealScale: 1.034, sliceSpreadVw: 4.8, sliceVerticalVh: .8, sliceRotation: 2.2, grill: { width: "min(84vw,760px)", height: "min(70vw,620px)", bottomVh: -5, startYPercent: 68, surfaceHalfVw: 4.8, surfaceYVh: 6.1 }, landingYOffsetVh: [0, -.4, .8, .4], dropScale: .44, smokeWidthVw: 72, smokeLeftPercent: 14, reactionInsetPercent: 18 },
+  tabletPortrait: { scrollVh: 370, scrub: .72, stageWidth: "min(92vw,820px)", stageHeight: "min(64vw,520px)", revealScale: 1.03, sliceSpreadVw: 4.5, sliceVerticalVh: .75, sliceRotation: 2, grill: { width: "94vw", height: "78vw", bottomVh: -4, startYPercent: 66, surfaceHalfVw: 4.5, surfaceYVh: 8 }, landingYOffsetVh: [0, -.5, 1.2, .5], dropScale: .44, smokeWidthVw: 84, smokeLeftPercent: 8, reactionInsetPercent: 14 },
+  mobileLandscape: { scrollVh: 250, scrub: .5, stageWidth: "min(76vw,112vh)", stageHeight: "min(50vw,72vh)", stageYOffsetVh: 5, revealScale: 1.022, sliceSpreadVw: 3.8, sliceVerticalVh: .45, sliceRotation: 1.5, grill: { width: "min(78vw,122vh)", height: "min(66vw,98vh)", bottomVh: -18, startYPercent: 54, surfaceHalfVw: 3.8, surfaceYVh: 1.5 }, landingYOffsetVh: [0, -.25, .55, .25], dropScale: .43, smokeWidthVw: 66, smokeLeftPercent: 18, reactionInsetPercent: 20 },
+  mobilePortrait: { scrollVh: 320, scrub: .58, stageWidth: "96vw", stageHeight: "70vw", revealScale: 1.025, sliceSpreadVw: 4.6, sliceVerticalVh: .65, sliceRotation: 1.8, grill: { width: "100vw", height: "90vw", bottomVh: -4, startYPercent: 62, surfaceHalfVw: 4.6, surfaceYVh: 17.5 }, landingYOffsetVh: [0, -.5, 1.3, .65], dropScale: .44, smokeWidthVw: 88, smokeLeftPercent: 6, reactionInsetPercent: 12 },
+  smallMobile: { scrollVh: 300, scrub: .5, stageWidth: "98vw", stageHeight: "74vw", revealScale: 1.02, sliceSpreadVw: 4.1, sliceVerticalVh: .55, sliceRotation: 1.5, grill: { width: "102vw", height: "92vw", bottomVh: -3, startYPercent: 58, surfaceHalfVw: 4.1, surfaceYVh: 17.5 }, landingYOffsetVh: [0, -.45, 1.15, .55], dropScale: .43, smokeWidthVw: 90, smokeLeftPercent: 5, reactionInsetPercent: 10 },
+};
+
 export function HomeHero({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
   const root = useRef<HTMLElement>(null);
@@ -18,67 +54,103 @@ export function HomeHero({ locale }: { locale: Locale }) {
       const { gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
       gsap.registerPlugin(ScrollTrigger);
-      const mobile = window.innerWidth < 800;
       let removeControl = () => {};
       const ctx = gsap.context(() => {
         const q = gsap.utils.selector(root);
         const slices = q<HTMLElement>(".lux-wagyu-slice");
-        const separatedX = mobile ? ["-5vw", "-1.7vw", "1.7vw", "5vw"] : ["-6vw", "-2vw", "2vw", "6vw"];
-        const separatedY = mobile ? ["0vh", "-1vh", ".7vh", "-.45vh"] : ["0vh", "-1.2vh", ".8vh", "-.55vh"];
-        const separatedScale = [.97, 1, 1.03, 1];
-        const landedX = mobile ? ["-5vw", "-1.8vw", "1.8vw", "5vw"] : ["-4vw", "-1.4vw", "1.4vw", "4vw"];
-        const landedY = mobile ? ["8.2vh", "7.6vh", "10vh", "9.2vh"] : ["4.2vh", "3.6vh", "5.4vh", "4.8vh"];
-        const timeline = gsap.timeline({
-          defaults: { ease: "power2.inOut" },
-          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: mobile ? .6 : 1 },
-        });
+        const stage = q<HTMLElement>(".lux-slices");
+        const cutLines = q<HTMLElement>(".lux-cut-lines");
+        const grill = q<HTMLElement>(".lux-grill");
+        const smoke = q<HTMLElement>(".lux-smoke");
+        let activeTimeline: ReturnType<typeof gsap.timeline> | null = null;
+        const mm = gsap.matchMedia();
 
-        timeline
-          .addLabel("reveal", 0)
-          .set(slices, { autoAlpha: 1 }, 0)
-          .to(q(".lux-blackout"), { autoAlpha: 0, duration: .5 }, 0)
-          .fromTo(q(".lux-slices"), { autoAlpha: 0, scale: .94 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: "power3.out" }, .12)
-          .to(q(".lux-bloom"), { opacity: .52, duration: .7 }, .35)
-          .to(q(".lux-slices"), { scale: mobile ? 1.025 : 1.045, duration: .9, ease: "power2.inOut" }, .82)
-          .addLabel("cut", .88)
-          .fromTo(q(".cut-1"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, .9)
-          .to(slices[0], { x: mobile ? -2 : -3, duration: .42, ease: "power2.inOut" }, 1.16)
-          .fromTo(q(".cut-2"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.08)
-          .to(slices[1], { x: mobile ? -1 : -2, duration: .42, ease: "power2.inOut" }, 1.34)
-          .fromTo(q(".cut-3"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.26)
-          .to([slices[2], slices[3]], { x: (index: number) => index === 0 ? (mobile ? 1 : 2) : (mobile ? 2 : 3), duration: .42, ease: "power2.inOut" }, 1.52)
-          .to(q(".lux-cut-line"), { autoAlpha: .18, duration: .35, stagger: .06, ease: "power2.inOut" }, 1.58)
-          .addLabel("separate", 1.58)
-          .to(slices, { x: (index: number) => separatedX[index], y: (index: number) => separatedY[index], rotateZ: (index: number) => [-3, -1, 1, 3][index], scale: (index: number) => separatedScale[index], duration: .9, stagger: .045, ease: "power3.inOut" }, 1.58)
-          .addLabel("grill", 2.05)
-          .to(q(".lux-grill"), { autoAlpha: 1, y: 0, yPercent: 0, duration: 1.02, ease: "power3.inOut" }, 2.05)
-          .to(q(".lux-warmth"), { opacity: 1, duration: .68 }, 2.22)
-          .to(q(".lux-smoke-warm"), { opacity: .72, duration: .72 }, 2.27)
-          .to(q(".lux-cut-line"), { autoAlpha: 0, duration: .36, stagger: .04 }, 2.25)
-          .addLabel("drop", 2.95)
-          .to(slices, { y: (index: number) => landedY[index], x: (index: number) => landedX[index], rotateZ: (index: number) => [2, -1, 1, -2][index], scale: mobile ? .44 : .42, duration: 1.05, stagger: .12, ease: "power2.in" }, 2.95)
-          .addLabel("ignite", 3.62)
-          .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.68)
-          .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.72)
-          .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 3.94)
-          .addLabel("final", 4.12)
-          .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 4.14)
-          .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.94);
+        mm.add({
+          largeDesktop: "(min-width: 1600px)",
+          desktop: "(min-width: 1280px) and (max-width: 1599px)",
+          laptop: "(min-width: 1024px) and (max-width: 1279px)",
+          tabletLandscape: "(min-width: 641px) and (max-width: 1023px) and (orientation: landscape)",
+          tabletPortrait: "(min-width: 641px) and (max-width: 1023px) and (orientation: portrait)",
+          mobileLandscape: "(max-width: 900px) and (max-height: 520px) and (orientation: landscape)",
+          mobilePortrait: "(min-width: 375px) and (max-width: 640px) and (orientation: portrait)",
+          smallMobile: "(max-width: 374px) and (orientation: portrait)",
+        }, (mediaContext) => {
+          const conditions = mediaContext.conditions ?? {};
+          const preset = conditions.mobileLandscape
+            ? "mobileLandscape"
+            : (Object.keys(heroAnimationConfig) as Array<keyof typeof heroAnimationConfig>).find((key) => conditions[key]) ?? "desktop";
+          const config = heroAnimationConfig[preset];
+          const separatedX = [-1, -.33, .33, 1].map((position) => `${position * config.sliceSpreadVw}vw`);
+          const separatedY = [0, -1, .7, -.45].map((position) => `${position * config.sliceVerticalVh}vh`);
+          const landedX = [-.7, -.24, .24, .7].map((position) => `${position * config.grill.surfaceHalfVw}vw`);
+          const landedY = config.landingYOffsetVh.map((offset) => `${config.grill.surfaceYVh + offset}vh`);
+          const separateRotations = [-1, -.33, .33, 1].map((position) => position * config.sliceRotation);
+          const cutNudge = Math.max(1, config.sliceSpreadVw * .42);
+
+          gsap.set(root.current, { height: `${config.scrollVh}vh` });
+          gsap.set([...stage, ...cutLines], { width: config.stageWidth, height: config.stageHeight, y: `${config.stageYOffsetVh ?? 0}vh` });
+          gsap.set(grill, { width: config.grill.width, height: config.grill.height, bottom: `${config.grill.bottomVh}vh`, yPercent: config.grill.startYPercent });
+          gsap.set(smoke, { width: `${config.smokeWidthVw}vw`, left: `${config.smokeLeftPercent}%` });
+          gsap.set(q(".lux-reaction"), { left: `${config.reactionInsetPercent}%`, right: `${config.reactionInsetPercent}%` });
+          gsap.set(q(".lux-embers"), { left: `${config.reactionInsetPercent + 4}%`, right: `${config.reactionInsetPercent + 4}%` });
+
+          const timeline = gsap.timeline({
+            defaults: { ease: "power2.inOut" },
+            scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: config.scrub, invalidateOnRefresh: true },
+          });
+          activeTimeline = timeline;
+
+          timeline
+            .addLabel("reveal", 0)
+            .set(slices, { autoAlpha: 1 }, 0)
+            .to(q(".lux-blackout"), { autoAlpha: 0, duration: .5 }, 0)
+            .fromTo(q(".lux-slices"), { autoAlpha: 0, scale: .94 }, { autoAlpha: 1, scale: 1, duration: 1.15, ease: "power3.out" }, .12)
+            .to(q(".lux-bloom"), { opacity: .52, duration: .7 }, .35)
+            .to(q(".lux-slices"), { scale: config.revealScale, duration: .9, ease: "power2.inOut" }, .82)
+            .addLabel("cut", .88)
+            .fromTo(q(".cut-1"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, .9)
+            .to(slices[0], { x: -cutNudge, duration: .42, ease: "power2.inOut" }, 1.16)
+            .fromTo(q(".cut-2"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.08)
+            .to(slices[1], { x: -cutNudge * .55, duration: .42, ease: "power2.inOut" }, 1.34)
+            .fromTo(q(".cut-3"), { autoAlpha: 0, scaleY: 0, yPercent: -12 }, { autoAlpha: .82, scaleY: 1, yPercent: 0, duration: .42, ease: "power3.inOut" }, 1.26)
+            .to([slices[2], slices[3]], { x: (index: number) => index === 0 ? cutNudge * .55 : cutNudge, duration: .42, ease: "power2.inOut" }, 1.52)
+            .to(q(".lux-cut-line"), { autoAlpha: .18, duration: .35, stagger: .06, ease: "power2.inOut" }, 1.58)
+            .addLabel("separate", 1.58)
+            .to(slices, { x: (index: number) => separatedX[index], y: (index: number) => separatedY[index], rotateZ: (index: number) => separateRotations[index], scale: (index: number) => [.97, 1, 1.03, 1][index], duration: .9, stagger: .045, ease: "power3.inOut" }, 1.58)
+            .addLabel("grill", 2.05)
+            .to(grill, { autoAlpha: 1, y: 0, yPercent: 0, duration: 1.02, ease: "power3.inOut" }, 2.05)
+            .to(q(".lux-warmth"), { opacity: 1, duration: .68 }, 2.22)
+            .to(q(".lux-smoke-warm"), { opacity: .72, duration: .72 }, 2.27)
+            .to(q(".lux-cut-line"), { autoAlpha: 0, duration: .36, stagger: .04 }, 2.25)
+            .addLabel("drop", 2.95)
+            .to(slices, { y: (index: number) => landedY[index], x: (index: number) => landedX[index], rotateZ: (index: number) => [2, -1, 1, -2][index] * (config.sliceRotation / 3), scale: config.dropScale, duration: 1.05, stagger: .12, ease: "power2.in" }, 2.95)
+            .addLabel("ignite", 3.62)
+            .to(q(".lux-reaction"), { autoAlpha: 1, scale: 1, duration: .3, ease: "power3.out" }, 3.68)
+            .to(q(".lux-embers"), { autoAlpha: 1, duration: .22 }, 3.72)
+            .to(q(".lux-reaction"), { opacity: .4, duration: .58 }, 3.94)
+            .addLabel("final", 4.12)
+            .to(q(".lux-final-copy"), { autoAlpha: 1, y: 0, duration: .72, ease: "power3.out" }, 4.14)
+            .to(q(".lux-opening-mark"), { autoAlpha: 0, duration: .35 }, 3.94);
+
+          ScrollTrigger.refresh();
+          return () => { activeTimeline = null; };
+        });
 
         const onControl = (event: Event) => {
           const action = (event as CustomEvent<{ action: string }>).detail.action;
           const controlTargets: Record<string, number> = { reveal: .78, cut: 2.48, grill: 3.02, drop: 3.82, ignite: 4.14, final: 4.82 };
-          if (action === "play") timeline.play();
-          else if (action === "pause") timeline.pause();
-          else if (action === "restart") timeline.restart();
-          else if (controlTargets[action] !== undefined && timeline.scrollTrigger) {
-            const progress = controlTargets[action] / timeline.duration();
-            const targetScroll = timeline.scrollTrigger.start + (timeline.scrollTrigger.end - timeline.scrollTrigger.start) * progress;
+          if (!activeTimeline) return;
+          if (action === "play") activeTimeline.play();
+          else if (action === "pause") activeTimeline.pause();
+          else if (action === "restart") activeTimeline.restart();
+          else if (controlTargets[action] !== undefined && activeTimeline.scrollTrigger) {
+            const progress = controlTargets[action] / activeTimeline.duration();
+            const targetScroll = activeTimeline.scrollTrigger.start + (activeTimeline.scrollTrigger.end - activeTimeline.scrollTrigger.start) * progress;
             window.scrollTo({ top: targetScroll, behavior: "auto" });
           }
         };
         window.addEventListener("aburii:hero-control", onControl);
-        removeControl = () => window.removeEventListener("aburii:hero-control", onControl);
+        removeControl = () => { window.removeEventListener("aburii:hero-control", onControl); mm.revert(); };
       }, root);
 
       cleanup = () => { removeControl(); ctx.revert(); };
